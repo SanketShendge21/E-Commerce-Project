@@ -15,7 +15,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    <Navbar />
+    
     <div>
       <img src="/home.jpg" alt="Error"/>
     </div>
@@ -99,7 +99,6 @@ export default function Home() {
         <button className="flex mx-auto mt-16 text-white bg-orange-500 border-0 py-2 px-8 focus:outline-none hover:bg-orange-600 rounded text-lg">Button</button>
       </div>
     </section>
-    <Footer />
     </div>
     </>
   )
