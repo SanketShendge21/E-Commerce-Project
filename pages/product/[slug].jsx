@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
-export default function Slug() {
+export default function Slug({addToCart}) {
 	const router = useRouter();
 	const { slug } = router.query;
 
@@ -155,7 +155,8 @@ export default function Slug() {
 								<button className="flex ml-6 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
 									Buy Now
 								</button>
-								<button className="flex ml-4 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
+								{/* Adding the item to the cart */}
+								<button onClick={()=>{addToCart(slug, 1, 499, "Tshirt","XL","Blue")}} className="flex ml-4 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
 									<BsFillCartPlusFill className="mr-1 mt-1" />
 									Add To Cart
 								</button>
