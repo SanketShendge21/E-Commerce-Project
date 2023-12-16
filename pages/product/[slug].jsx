@@ -1,17 +1,41 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 export default function Slug() {
 	const router = useRouter();
 	const { slug } = router.query;
+
+	// Serviceability check
+	const [pin, setPin] = useState();
+	const [service, setService] = useState();
+	// Let the promise resolve then check if the service is available
+	const checkServiceability = async () => {
+		let pins = await fetch("http://localhost:3000/api/pincode");
+		let pinJson = await pins.json();
+		if (pinJson.includes(parseInt(pin))) {
+			setService(true); // Set the service as available
+		} else {
+			setService(false);
+		}
+	};
+
+	const onChangePin = (e) => {
+		setPin(e.target.value);
+	};
+
 	return (
 		<div>
 			<section className="text-gray-600 body-font overflow-hidden">
 				<div className="container px-5 py-16 mx-auto">
 					<div className="lg:w-4/5 mx-auto flex flex-wrap">
-						<img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded" src="https://m.media-amazon.com/images/I/51byp5tQ86L._SX569_.jpg" />
+						<img
+							alt="ecommerce"
+							className="lg:w-1/2 w-full lg:h-auto px-24 object-cover object-top rounded"
+							src="https://m.media-amazon.com/images/I/51byp5tQ86L._SX569_.jpg"
+						/>
 						<div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-							<h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
-							<h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
+							<h2 className="text-sm title-font text-gray-500 tracking-widest">Threads Unveiled</h2>
+							<h1 className="text-gray-900 text-3xl title-font font-medium mb-1">Tshirt (XL/Blue)</h1>
 							<div className="flex mb-4">
 								<span className="flex items-center">
 									<svg
@@ -127,8 +151,11 @@ export default function Slug() {
 								</div>
 							</div>
 							<div className="flex">
-								<span className="title-font font-medium text-2xl text-gray-900">₹58.00</span>
-								<button className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
+								<span className="title-font font-medium text-2xl text-gray-900">₹499</span>
+								<button className="flex ml-6 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
+									Buy Now
+								</button>
+								<button className="flex ml-4 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
 									<BsFillCartPlusFill className="mr-1 mt-1" />
 									Add To Cart
 								</button>
@@ -138,6 +165,24 @@ export default function Slug() {
 									</svg>
 								</button>
 							</div>
+							<div className="pin mt-6 flex space-x-2 text-sm">
+								<input
+									onChange={onChangePin}
+									type="text"
+									name="pincode"
+									id="pincode"
+									className="px-2 border-2 rounded-md border-gray-400"
+									placeholder="Enter Your Pincode"
+								/>
+								<button
+									onClick={checkServiceability}
+									className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"
+								>
+									Check
+								</button>
+							</div>
+							{!service && service != null && <div className="text-red-700 text-sm mt-3">Sorry, we do not deliver to this pincode at this moment.</div>}
+							{service && service != null && <div className="text-green-700 text-sm mt-3">The pincode is serviceable</div>}
 						</div>
 					</div>
 				</div>
