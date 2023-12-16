@@ -7,7 +7,9 @@ import { IoClose } from "react-icons/io5";
 import { BsBagCheckFill } from "react-icons/bs";
 import { CgTrashEmpty } from "react-icons/cg";
 
-const Navbar = () => {
+const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // Taking props from _app.component
+	console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
+	
 	const toggleCart = () => {
 		// We are removing and adding translate-x-full class to toggle the sideCart menu
 		if (ref.current.classList.contains("translate-x-full")) {
@@ -64,63 +66,29 @@ const Navbar = () => {
 					<IoClose />
 				</span>
 				<ol className="list-decimal font-semibold">
-					<li>
+					{/* If the cart is empty display no items message */}
+					{ Object.keys(cart).length === 0 &&
+						<div className="my-2">No items present in the cart.</div>
+					}
+					
+					 {/* iterates through each item in the cart object using Object.keys(cart). It returns an array of React elements, each representing an item in the cart. */}
+					{Object.keys(cart).map((k)=>{return <li key={k}>
 						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">Tshirts</div>
+							<div className="w-2/3 flex items-center justify-center font-semibold">{cart[k].name}</div>
 							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
-								<FaCircleMinus className="cursor-pointer text-orange-500" />
-								<span className="mx-2 text-sm">1</span>
-								<FaCirclePlus className="cursor-pointer text-orange-500" />
+								<FaCircleMinus onClick={()=>{removeFromCart(k,1,cart[k].price, cart[k].name,cart[k].size,cart[k].variant)}} className="cursor-pointer text-orange-500" />
+								<span className="mx-2 text-sm">{cart[k].qty}</span>
+								<FaCirclePlus onClick={()=>{addToCart(k,1,cart[k].price, cart[k].name,cart[k].size,cart[k].variant)}} className="cursor-pointer text-orange-500" />
 							</div>
 						</div>
-					</li>
-					<li>
-						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">Tshirts</div>
-							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
-								<FaCircleMinus className="cursor-pointer text-orange-500" />
-								<span className="mx-2 text-sm">1</span>
-								<FaCirclePlus className="cursor-pointer text-orange-500" />
-							</div>
-						</div>
-					</li>
-					<li>
-						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">Tshirts</div>
-							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
-								<FaCircleMinus className="cursor-pointer text-orange-500" />
-								<span className="mx-2 text-sm">1</span>
-								<FaCirclePlus className="cursor-pointer text-orange-500" />
-							</div>
-						</div>
-					</li>
-					<li>
-						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">Tshirts</div>
-							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
-								<FaCircleMinus className="cursor-pointer text-orange-500" />
-								<span className="mx-2 text-sm">1</span>
-								<FaCirclePlus className="cursor-pointer text-orange-500" />
-							</div>
-						</div>
-					</li>
-					<li>
-						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">Tshirts</div>
-							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
-								<FaCircleMinus className="cursor-pointer text-orange-500" />
-								<span className="mx-2 text-sm">1</span>
-								<FaCirclePlus className="cursor-pointer text-orange-500" />
-							</div>
-						</div>
-					</li>
+					</li> })}
 				</ol>
 				<div className="flex">
 					<button className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
 						<BsBagCheckFill className="m-1 text-center" />
 						Checkout
 					</button>
-					<button className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
+					<button onClick={clearCart} className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
 						<CgTrashEmpty className="m-1 text-l text-center" />
 						Clear Cart
 					</button>
