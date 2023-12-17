@@ -8,7 +8,7 @@ import { BsBagCheckFill } from "react-icons/bs";
 import { CgTrashEmpty } from "react-icons/cg";
 
 const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // Taking props from _app.component
-	console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
+	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
 	
 	const toggleCart = () => {
 		// We are removing and adding translate-x-full class to toggle the sideCart menu
@@ -25,7 +25,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 	return (
 		// Code for Navbar - Start
 		// md:property referes to properties that will be applied to devies of medium screen size or above
-		<div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md">
+		<div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-10 bg-white">
 			<div className="logo mx-5">
 				<Link href={"/"}>
 					<Image src="/logo.png" alt="Error" width={200} height={40} />
@@ -57,10 +57,12 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 			{/* CSS Properties 
         1. absolute top-0 right-0: Positions the cart at the top-right corner of its containing element.
         2. transform transition-transform translate-x-full: Initiates a transformation and transition effect. The translate-x-full moves the cart fully outside the viewport horizontally. */}
-			<div
-				ref={ref}
-				className="z-10 sideCart w-72 h-full absolute top-0 right-0 bg-slate-50 px-10 p-10 transfrom transition-transform translate-x-full"
-			>
+
+			{/* If the cart is empty then dont show the Sidebar */}
+			<div ref={ref}
+				className={`z-10 sideCart w-72 h-[100vh] absolute top-0 right-0 bg-slate-50 px-10 p-10 transfrom transition-transform ${Object.keys(cart).length
+				!==0 ? 'translate-x-0':'translate-x-full'}`}>
+					
 				<h2 className="font-bold text-xl text-center">Shopping Cart</h2>
 				<span className="absolute top-5 right-3 cursor-pointer text-2xl text-orange-500" onClick={toggleCart}>
 					<IoClose />
@@ -72,7 +74,8 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 					}
 					
 					 {/* iterates through each item in the cart object using Object.keys(cart). It returns an array of React elements, each representing an item in the cart. */}
-					{Object.keys(cart).map((k)=>{return <li key={k}>
+					{Object.keys(cart).map((k)=>{
+						return <li key={k}>
 						<div className="item flex my-3">
 							<div className="w-2/3 flex items-center justify-center font-semibold">{cart[k].name}</div>
 							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
@@ -83,11 +86,15 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 						</div>
 					</li> })}
 				</ol>
+				
+				<div className="font-bold py-2">Subtotal: {subTotal}</div>
 				<div className="flex">
-					<button className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
+					<Link href={"/checkout"}>
+						<button className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
 						<BsBagCheckFill className="m-1 text-center" />
 						Checkout
-					</button>
+						</button>
+					</Link>
 					<button onClick={clearCart} className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
 						<CgTrashEmpty className="m-1 text-l text-center" />
 						Clear Cart
