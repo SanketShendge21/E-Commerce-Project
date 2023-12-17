@@ -8,11 +8,12 @@ export default function App({ Component, pageProps }) {
   const [subTotal, setSubTotal] = useState(0)
 
   useEffect(() => {
-    console.log("finding error or working...");
+    console.log("Use effect in _app.js");
     try {
       if(localStorage.getItem("cart"))
       {
         setCart(JSON.parse(localStorage.getItem("cart"))); // If the cart has already been persisted then update the cart
+        saveCart(JSON.parse(localStorage.getItem("cart")));
       }
     } catch (error) {
       console.error(error)
@@ -74,7 +75,8 @@ export default function App({ Component, pageProps }) {
 
   return (
   <>
-    <Navbar cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
+    {/* Subtotal key to re-render navbar whenever subtotal changes */}
+    <Navbar key={subTotal} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
