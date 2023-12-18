@@ -6,6 +6,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { BsBagCheckFill } from "react-icons/bs";
 import { CgTrashEmpty } from "react-icons/cg";
+import { MdAccountCircle } from "react-icons/md";
 
 const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // Taking props from _app.component
 	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
@@ -47,7 +48,8 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 					</Link>
 				</ul>
 			</div>
-			<div className="cart absolute right-0 top-4 mx-5">
+			<div className="cart absolute right-0 top-4 mx-5 flex">
+				<Link href={'/login'}><MdAccountCircle className="text-xl md:text-2xl cursor-pointer mx-2" /></Link>
 				<FaShoppingCart onClick={toggleCart} className="text-xl md:text-2xl cursor-pointer" /> {/* Using React Icon */}
 			</div>
 			{/* Navbar End  */}
