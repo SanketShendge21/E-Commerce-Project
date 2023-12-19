@@ -13,4 +13,6 @@ const ProductSchema = new mongoose.Schema({
 
 }, { timestamps: true } );
 
+mongoose.models = {}; // it tries to redefine a model so we make it empty first we dont want to make models again if servers restart
+
 export default mongoose.model('Product', ProductSchema); // Export the Product Schema

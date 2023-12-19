@@ -7,4 +7,6 @@ const UserSchema = new mongoose.Schema({
 
 }, { timestamps: true } );
 
+mongoose.models = {}; // it tries to redefine a model so we make it empty first we dont want to make models again if servers restart
+
 export default mongoose.model('User', UserSchema); // Export the User Schema

@@ -11,4 +11,6 @@ const OrderSchema = new mongoose.Schema({
     status: {type : String, required: true, default:'Pending'}
 }, { timestamps: true } );
 
+mongoose.models = {}; // it tries to redefine a model so we make it empty first we dont want to make models again if servers restart
+
 export default mongoose.model('Order', OrderSchema); // Export the Order Schema
