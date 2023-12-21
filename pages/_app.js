@@ -2,11 +2,12 @@ import '@/styles/globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
-
+  const router = useRouter();
   useEffect(() => {
     console.log("Use effect in _app.js");
     try {
@@ -73,11 +74,19 @@ export default function App({ Component, pageProps }) {
     saveCart({})
   }
 
+  const buyNow = (itemCode, qty, price, name, size, variant ) => {
+    saveCart({})
+    let newCart = {itemCode : {qty: 1,  price,  name, size,  variant}};
+    setCart(newCart)
+    saveCart(newCart)
+		router.push('/checkout');
+	}
+
   return (
   <>
     {/* Subtotal key to re-render navbar whenever subtotal changes */}
     <Navbar key={subTotal} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
-      <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} {...pageProps} />
+      <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
   )
