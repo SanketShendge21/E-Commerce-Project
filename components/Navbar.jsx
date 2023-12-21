@@ -35,16 +35,16 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 			<div className="nav">
 				<ul className="flex items-center space-x-4 font-bold md:text-l">
 					<Link href={"/hoodies"}>
-						<li>Hoodies</li>
+						<li className="hover:text-orange-600">Hoodies</li>
 					</Link>
 					<Link href={"/tshirts"}>
-						<li>Tshirts</li>
+						<li className="hover:text-orange-600">Tshirts</li>
 					</Link>
 					<Link href={"/stickers"}>
-						<li>Stickers</li>
+						<li className="hover:text-orange-600">Stickers</li>
 					</Link>
 					<Link href={"/mugs"}>
-						<li>Mugs</li>
+						<li className="hover:text-orange-600">Mugs</li>
 					</Link>
 				</ul>
 			</div>
@@ -79,7 +79,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 					{Object.keys(cart).map((k)=>{
 						return <li key={k}>
 						<div className="item flex my-3">
-							<div className="w-2/3 flex items-center justify-center font-semibold">{cart[k].name}</div>
+							<div className="w-2/3 flex items-center justify-center font-semibold">{cart[k].name} ({cart[k].variant}/{cart[k].size})</div>
 							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
 								<FaCircleMinus onClick={()=>{removeFromCart(k,1,cart[k].price, cart[k].name,cart[k].size,cart[k].variant)}} className="cursor-pointer text-orange-500" />
 								<span className="mx-2 text-sm">{cart[k].qty}</span>
@@ -89,7 +89,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 					</li> })}
 				</ol>
 				
-				<div className="font-bold py-2">Subtotal: {subTotal}</div>
+				<div className="font-bold py-2">Subtotal: ₹{subTotal}</div>
 				<div className="flex">
 					<Link href={"/checkout"}>
 						<button className="flex mr-2 text-white bg-orange-500 border-0 py-2 pr-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
