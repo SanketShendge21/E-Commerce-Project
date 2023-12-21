@@ -62,7 +62,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 
 			{/* If the cart is empty then dont show the Sidebar */}
 			<div ref={ref}
-				className={`z-10 sideCart w-72 h-[100vh] absolute top-0 right-0 bg-slate-50 px-10 p-10 transfrom transition-transform ${Object.keys(cart).length
+				className={`z-10 sideCart w-80 h-[100vh] absolute overflow-y-scroll top-0 right-0 bg-slate-50 px-10 p-10 transfrom transition-transform ${Object.keys(cart).length
 				!==0 ? 'translate-x-0':'translate-x-full'}`}>
 					
 				<h2 className="font-bold text-xl text-center">Shopping Cart</h2>
