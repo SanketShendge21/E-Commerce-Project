@@ -75,7 +75,7 @@ const Checkout = ({cart, addToCart, removeFromCart, subTotal}) => {
 					{Object.keys(cart).map((k)=>{
             return <li key={k}>
 						<div className="item flex my-3">
-							<div className="flex font-semibold">{cart[k].name}</div>
+							<div className="flex font-semibold">{cart[k].name} ({cart[k].variant}/{cart[k].size})</div>
 							<div className="w-1/3 flex items-center justify-center font-semibold text-lg">
 								<FaCircleMinus onClick={()=>{removeFromCart(k,1,cart[k].price, cart[k].name,cart[k].size,cart[k].variant)}} className="cursor-pointer text-orange-500" />
 								<span className="mx-2 text-sm">{cart[k].qty}</span>
