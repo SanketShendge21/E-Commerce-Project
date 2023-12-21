@@ -4,7 +4,7 @@ import { BsFillCartPlusFill } from "react-icons/bs";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
 
-export default function Slug({ addToCart, product, variants }) {
+export default function Slug({ addToCart, product, variants, buyNow }) {
 	const router = useRouter();
 	const { slug } = router.query;
 
@@ -33,6 +33,8 @@ export default function Slug({ addToCart, product, variants }) {
 		let url = `http://localhost:3000/product/${variants[newColor][newSize]["slug"]}`;
 		window.location = url; // Refresh the product
 	}
+
+
 
 	return (
 		<div>
@@ -176,7 +178,7 @@ export default function Slug({ addToCart, product, variants }) {
 							</div>
 							<div className="flex">
 								<span className="title-font font-medium text-2xl text-gray-900">₹{product.price}</span>
-								<button className="flex ml-6 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
+								<button onClick={()=>{buyNow(slug, 1, 499, product.title, size, color)}} className="flex ml-6 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
 									Buy Now
 								</button>
 								{/* Adding the item to the cart */}
