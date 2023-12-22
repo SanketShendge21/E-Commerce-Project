@@ -9,7 +9,7 @@ const Tshirts = ({ products }) => {
 		<div>
 			<section className="text-gray-600 body-font">
 				<div className="container px-5 py-24 mx-auto">
-					<div className="flex flex-wrap -m-4">
+					<div className="flex flex-wrap -m-4 justify-center">
 						{/*  products is an object which contains tshirts as we have logic is getServerSideProps so we need to take its keys*/}
 						{Object.keys(products).map((item) => {
 							// Products is an array so we use map function to get the product and display
