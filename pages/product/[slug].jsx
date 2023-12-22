@@ -248,7 +248,7 @@ export async function getServerSideProps(context) {
 	let product = await Product.findOne({ slug: context.query.slug });
 
 	// Fetch all variants of the product with the same title (assuming variants have the same title)
-	let variants = await Product.find({ title: product.title });
+	let variants = await Product.find({ title: product.title, category: product.category});
 
 	// Create an empty object to store color, size, and corresponding slugs
 	let colorSizeSlug = {}; // {red : {xl : {slug : threads-unveiled}}}
