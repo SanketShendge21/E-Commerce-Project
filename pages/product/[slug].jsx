@@ -3,6 +3,8 @@ import { useState } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Slug({ addToCart, product, variants, buyNow }) {
 	const router = useRouter();
@@ -17,8 +19,10 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 		let pinJson = await pins.json();
 		if (pinJson.includes(parseInt(pin))) {
 			setService(true); // Set the service as available
+			toast("Service is available")
 		} else {
 			setService(false);
+			toast.error("Sorry, service is not available")
 		}
 	};
 
@@ -39,6 +43,18 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	return (
 		<div>
 			<section className="text-gray-600 body-font overflow-hidden">
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
 				<div className="container px-5 py-16 mx-auto">
 					<div className="lg:w-4/5 mx-auto flex flex-wrap">
 						<img
@@ -153,7 +169,7 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 								<div className="flex ml-6 items-center">
 									<span className="mr-3">Size</span>
 									<div className="relative">
-										<select value={size} onChange={(e)=>{refreshVariant(color,e.target.value)}} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500 text-base pl-3 pr-10">
+										<select onChange={(e)=>{refreshVariant(color,e.target.value)}} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-500 text-base pl-3 pr-10">
 											{Object.keys(variants[color]).includes('S') && <option value={'S'} >S</option>}
 											{Object.keys(variants[color]).includes('M') && <option value={'M'} >M</option>}
 											{Object.keys(variants[color]).includes('L') && <option value={'L'} >L</option>}
@@ -235,7 +251,7 @@ export async function getServerSideProps(context) {
 	let variants = await Product.find({ title: product.title });
 
 	// Create an empty object to store color, size, and corresponding slugs
-	let colorSizeSlug = {};
+	let colorSizeSlug = {}; // {red : {xl : {slug : threads-unveiled}}}
 
 	// Iterate over each variant to populate the colorSizeSlug object
 	for (let item of variants) {
