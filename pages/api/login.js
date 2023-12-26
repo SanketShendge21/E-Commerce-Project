@@ -1,14 +1,19 @@
 import User from "@/models/User";
 import connectDB from "@/middleware/mongoose";
+var CryptoJS = require("crypto-js"); // Import crypto-js
 
 const handler = async (req, res) => {
     try {
+        let conn = await connectDB();
         if (req.method === 'POST') {
             console.log(req.body);
             let user = await User.findOne({ email: req.body.email }); // Find the user in the database
+            const bytes  = CryptoJS.AES.decrypt(user.password, 'secret123');
+            let decryptedPass = bytes.toString(CryptoJS.enc.Utf8);
 
             if (user) {
-                if (req.body.email === user.email && req.body.password === user.password) {
+                // if encrypted password and password in the database matches
+                if (req.body.email === user.email && req.body.password === decryptedPass) {
                     // If the user exists and the credentials match, send a success response
                     res.status(200).json({ success: true, email: user.email, name: user.name });
                 } else {
