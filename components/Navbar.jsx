@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
@@ -8,9 +8,11 @@ import { BsBagCheckFill } from "react-icons/bs";
 import { CgTrashEmpty } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
 
-const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // Taking props from _app.component
+const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key, logout}) => { // Taking props from _app.component
 	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
 	
+	const [dropdown, setDropdown] = useState(false);
+
 	const toggleCart = () => {
 		// We are removing and adding translate-x-full class to toggle the sideCart menu
 		if (ref.current.classList.contains("translate-x-full")) {
@@ -21,13 +23,14 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 			ref.current.classList.add("translate-x-full");
 		}
 	};
+
 	// Using the useRef hook to access the sideCart menu using ref
 	const ref = useRef();
 	return (
 		// Code for Navbar - Start
 		// md:property referes to properties that will be applied to devies of medium screen size or above
 		<div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-10 bg-white">
-			<div className="logo mx-5">
+			<div className="logo mr-auto md:mx-5">
 				<Link href={"/"}>
 					<Image src="/logo.png" alt="Error" width={200} height={40} />
 				</Link>
@@ -49,9 +52,25 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal}) => { // 
 				</ul>
 			</div>
 			<div className="cart absolute right-0 top-4 mx-5 flex">
-				<Link href={'/login'}><MdAccountCircle className="text-xl md:text-2xl cursor-pointer mx-2" /></Link>
-				<FaShoppingCart onClick={toggleCart} className="text-xl md:text-2xl cursor-pointer" /> {/* Using React Icon */}
+				{/* onlyshow this div when hovering over profile */}
+				<span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}}>
+				{ dropdown && <div className="absolute right-8 top-6 py-4 bg-slate-500 rounded-md px-5 w-32">
+					<ul>
+						<Link href={'/orders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Orders</li></Link>
+						<Link href={'/myaccount'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Account</li></Link>
+						<li onClick={logout} className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Logout</li>
+					</ul>
+				</div> }
+				</span>
+				{/* If user is logged in then show his profile icon */}
+				{user.value && <MdAccountCircle onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="text-xl md:text-2xl cursor-pointer mx-2" />}
+				
+				{!user.value && <Link href={'/login'}>
+					<button className="bg-orange-500 px-2  py-1 rounded-md text-sm text-white mx-2">Login</button>
+				</Link>}
+				<FaShoppingCart onClick={toggleCart} className="text-xl md:text-2xl cursor-pointer items-center" /> {/* Using React Icon */}
 			</div>
+				
 			{/* Navbar End  */}
 
 			{/* Code for Sidebar - Start */}
