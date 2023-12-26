@@ -26,6 +26,9 @@ const Signup = () => {
     setEmail('');
     setPassword('');
     setName('');
+    setTimeout(() => {
+      router.push('http://localhost:3000/login')
+    }, 1000);
   }
   else{
     toast.error("Signup failed")
