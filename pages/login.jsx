@@ -23,6 +23,7 @@ const Login = () => {
   });
   let response = await res.json();
   if(response.success) {
+    localStorage.setItem('authtoken',response.authtoken);
     toast.success("Login successful")
     setEmail('');
     setPassword('');
