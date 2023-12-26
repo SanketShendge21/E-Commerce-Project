@@ -7,7 +7,9 @@ import { useRouter } from 'next/router'
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
-  const router = useRouter();
+  const [user, setUser] = useState({value:null})
+  const [key, setKey] = useState()
+  const router = useRouter(0);
   useEffect(() => {
     console.log("Use effect in _app.js");
     try {
@@ -20,7 +22,15 @@ export default function App({ Component, pageProps }) {
       console.error(error)
       localStorage.clear()
     }
-  },[])
+    const token = localStorage.getItem("authtoken");
+    if(token){
+      setUser({value: token});
+      setKey(Math.random())
+    }
+    else{
+
+    }
+  },[router.query])
   
   // Saves the cart into local storage so that it can be persisted
   const saveCart = (myCart) => {
@@ -82,10 +92,17 @@ export default function App({ Component, pageProps }) {
 		router.push('/checkout');
 	}
 
+  const logout = () =>{
+    localStorage.removeItem('authtoken');
+    setKey(Math.random());
+    setUser({value: null});
+    router.push('/');
+  }
+
   return (
   <>
     {/* Subtotal key to re-render navbar whenever subtotal changes */}
-    <Navbar key={subTotal} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
+    <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
