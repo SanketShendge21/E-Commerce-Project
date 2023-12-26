@@ -54,7 +54,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 			<div className="cart absolute right-0 top-4 mx-5 flex">
 				{/* onlyshow this div when hovering over profile */}
 				<span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}}>
-				{ dropdown && <div className="absolute right-8 top-6 py-4 bg-slate-500 rounded-md px-5 w-32">
+				{ dropdown && <div className="absolute right-8 top-6 py-4 bg-white shadow-lg border rounded-md px-5 w-32">
 					<ul>
 						<Link href={'/orders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Orders</li></Link>
 						<Link href={'/myaccount'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Account</li></Link>

@@ -3,14 +3,23 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import LoadingBar from 'react-top-loading-bar'
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
   const [user, setUser] = useState({value:null})
   const [key, setKey] = useState()
-  const router = useRouter(0);
+  const [progress, setProgress] = useState(0)
+
+  const router = useRouter();
   useEffect(() => {
+    router.events.on('routeChangeStart',()=>{
+      setProgress(40);
+    })
+    router.events.on('routeChangeComplete',()=>{
+      setProgress(100);
+    })
     console.log("Use effect in _app.js");
     try {
       if(localStorage.getItem("cart"))
@@ -101,6 +110,12 @@ export default function App({ Component, pageProps }) {
 
   return (
   <>
+    <LoadingBar
+      color='#F97316'
+      progress={progress}
+      waitingTime={400}
+      onLoaderFinished={() => setProgress(0)}
+    />
     {/* Subtotal key to re-render navbar whenever subtotal changes */}
     <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />

@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-
+import { useRouter } from 'next/router'
 const ForgotPassword = () => {
+  const router = useRouter()
+  useEffect(() => {
+    // If the user is already logged in then we should redirect to the home page
+    if(localStorage.getItem('authtoken')){
+      router.push('/')
+    }
+  }, [])
   return (
     <div>
       <Head>

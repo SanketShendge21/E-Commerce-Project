@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { toast, ToastContainer } from 'react-toastify'
@@ -9,6 +9,14 @@ const Login = () => {
   const router = useRouter()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+
+  useEffect(() => {
+    // If the user is already logged in then we should redirect to the home page
+    if(localStorage.getItem('authtoken')){
+      router.push('/')
+    }
+  }, [])
+  
 
   const handleSubmit = async (e) => {
   e.preventDefault();
