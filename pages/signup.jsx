@@ -6,9 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 
 const Signup = () => {
-  const [name, setName] = useState()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const router = useRouter()
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   const data = {name,email,password};
-  let url = `http://localhost:3000/api/signup`;
+  let url = `${process.env.NEXT_PUBLIC_HOST}/api/signup`;
   const res = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     headers: {
@@ -36,7 +36,7 @@ const Signup = () => {
     setPassword('');
     setName('');
     setTimeout(() => {
-      router.push('http://localhost:3000/login')
+      router.push(`${process.env.NEXT_PUBLIC_HOST}/login`)
     }, 1000);
   }
   else{

@@ -15,7 +15,7 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	const [service, setService] = useState();
 	// Let the promise resolve then check if the service is available
 	const checkServiceability = async () => {
-		let pins = await fetch("http://localhost:3000/api/pincode");
+		let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
 		let pinJson = await pins.json();
 		if (pinJson.includes(parseInt(pin))) {
 			setService(true); // Set the service as available
@@ -34,7 +34,7 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	const [size, setSize] = useState(product.size);	
 	
 	const refreshVariant = (newColor, newSize)=>{	
-		let url = `http://localhost:3000/product/${variants[newColor][newSize]["slug"]}`;
+		let url = `${process.env.NEXT_PUBLIC_HOST}/product/${variants[newColor][newSize]["slug"]}`;
 		window.location = url; // Refresh the product
 	}
 

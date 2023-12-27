@@ -7,8 +7,8 @@ import { useRouter } from 'next/router'
 
 const Login = () => {
   const router = useRouter()
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   useEffect(() => {
     // If the user is already logged in then we should redirect to the home page
@@ -21,7 +21,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   const data = {email,password};
-  let url = `http://localhost:3000/api/login`;
+  let url = `${process.env.NEXT_PUBLIC_HOST}/api/login`;
   const res = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
     headers: {
@@ -36,7 +36,7 @@ const Login = () => {
     setEmail('');
     setPassword('');
     setTimeout(() => {
-      router.push('http://localhost:3000')
+      router.push(`${process.env.NEXT_PUBLIC_HOST}`)
     }, 1000);
   }
   else{
@@ -55,9 +55,7 @@ const Login = () => {
 
   return (
   <div>
-    <Head>
-      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/motion-tailwind/motion-tailwind.css" />
-    </Head>
+
     <div className="container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
     <ToastContainer
 				position="top-right"

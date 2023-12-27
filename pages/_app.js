@@ -116,8 +116,8 @@ export default function App({ Component, pageProps }) {
       waitingTime={400}
       onLoaderFinished={() => setProgress(0)}
     />
-    {/* Subtotal key to re-render navbar whenever subtotal changes */}
-    <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} />
+    {/* If key is undefined then do not re render the Navbar */}
+    <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> 
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
