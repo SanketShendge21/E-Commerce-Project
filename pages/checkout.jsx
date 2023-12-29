@@ -24,6 +24,7 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
     let txnRes = await response.json(); // parses JSON response into native JavaScript objects
     let txnToken = txnRes.txnToken;
 	console.log(txnToken);
+	console.log(txnRes);
   
 
     var config = {
@@ -41,7 +42,7 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
         bodyColor: "green"
       },
       merchant:{
-        mid:"mid"
+        mid:process.env.NEXT_PUBLIC_PAYTM_MID
       },
       handler: {
         notifyMerchant: function(eventType, data) {
@@ -51,6 +52,7 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
      };
         window.Paytm.CheckoutJS.init(config).then(function onSuccess(){
           // after successfully updating configuration, invoke JS Checkout
+		  console.log("initialized");
           window.Paytm.CheckoutJS.invoke();
         }).catch(function onError(error){
           console.log("error => ", error);
@@ -65,7 +67,8 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 			<Script
 				type="application/javascript"
 				crossOrigin="anonymous"
-				src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}></Script>
+				src={`${process.env.NEXT_PUBLIC_PAYTM_HOST}/merchantpgpui/checkoutjs/merchants/${process.env.NEXT_PUBLIC_PAYTM_MID}.js`}>
+			</Script>
 			<h1 className="font-bold text-xl my-8 text-center">Checkout</h1>
 			<h2 className="text-xl font-bold">Delivery Details</h2>
 			<div className="mx-auto flex my-2">
