@@ -4,12 +4,11 @@ var CryptoJS = require("crypto-js");
 
 const handler = async (req, res) => {
     try {
-        let conn = await connectDB();
         if (req.method === 'POST') {
             const { name, email, password } = req.body;
             
             // Encrypt the password
-            const encPass = CryptoJS.AES.encrypt(password, "secret123").toString();
+            const encPass = CryptoJS.AES.encrypt(password, process.env.AES_SECRET).toString();
             
             // Create a new user object with encrypted password
             let user = new User({ name, email, password: encPass});
@@ -28,4 +27,4 @@ const handler = async (req, res) => {
     }
 };
 
-export default handler;
+export default connectDB(handler);

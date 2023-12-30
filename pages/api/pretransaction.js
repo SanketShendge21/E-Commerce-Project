@@ -1,14 +1,36 @@
-
+import connectDB from "@/middleware/mongoose";
+import Order from "@/models/Order";
 const https = require("https");
-const PaytmChecksum = require("paytmchecksum")
+const PaytmChecksum = require("paytmchecksum");
 
 // const PaytmChecksum = require(PaytmChecksum)//
 
-export default async function handler(req, res) {
+
+const handler = async (req, res)=> {
 	if (req.method === "POST") {
-		const {subTotal, email, oid} = req.body
-		var params = {};
+		// Check if cart is tampered -- TODO
+
+		// Check if cart items are out of stock -- TODO
+
+		// Check if the details are valid -- TODO
+
+		//Inititate an order corresponding to the orderID
+
 		// Insert an entry in the orders table with status as pending
+
+		const { subTotal, cart, email, name, phone, address, oid } = req.body;
+
+		let order = new Order({
+			email: email,
+			orderId: oid,
+			address: address,
+			amount: subTotal,
+			products: cart,
+		});
+
+		await order.save();
+
+		var params = {};
 		params.body = {
 			requestType: "Payment",
 			mid: process.env.NEXT_PUBLIC_PAYTM_MID,
@@ -42,7 +64,7 @@ export default async function handler(req, res) {
 						/* for Staging */
 						//hostname: "securegw-stage.paytm.in" /* for Production */,
 						hostname: "securegw.paytm.in",
-	
+
 						port: 443,
 						path: `/theia/api/v1/initiateTransaction?mid=${process.env.NEXT_PUBLIC_PAYTM_MID}&orderId=${req.body.oid}`,
 						method: "POST",
@@ -51,32 +73,30 @@ export default async function handler(req, res) {
 							"Content-Length": post_data.length,
 						},
 					};
-	
+
 					var response = "";
-					var post_req = https.request(options, function(post_res) {
-						post_res.on('data', function (chunk) {
+					var post_req = https.request(options, function (post_res) {
+						post_res.on("data", function (chunk) {
 							response += chunk;
 						});
-				
-						post_res.on('end', function(){
-							console.log('Response: ', response);
+
+						post_res.on("end", function () {
+							console.log("Response: ", response);
 							resolve(JSON.parse(response).body);
 						});
 					});
-				
+
 					post_req.write(post_data);
 					post_req.end();
-					
-				});	
-			}
-			catch (err) {
+				});
+			} catch (err) {
 				console.log("Error: ", err);
 			}
-			
 		};
-		
 
 		let myResponse = await requestAsync();
 		res.status(200).json(myResponse);
 	}
 }
+
+export default connectDB(handler);

@@ -5,11 +5,10 @@ var jwt = require('jsonwebtoken');
 
 const handler = async (req, res) => {
     try {
-        let conn = await connectDB();
         if (req.method === 'POST') {
             console.log(req.body);
             let user = await User.findOne({ email: req.body.email }); // Find the user in the database
-            const bytes  = CryptoJS.AES.decrypt(user.password, 'secret123');
+            const bytes  = CryptoJS.AES.decrypt(user.password, process.env.AES_SECRET);
             let decryptedPass = bytes.toString(CryptoJS.enc.Utf8);
 
             if (user) {
@@ -18,7 +17,7 @@ const handler = async (req, res) => {
                     // If the user exists and the credentials match, send a success response
                     
                     // Adding a JWT token for the user to create a login session
-                    var token = jwt.sign({ email: user.email, name: user.name }, 'jwtsecret',{expiresIn: '2d'}); // expires in 2 days
+                    var token = jwt.sign({ email: user.email, name: user.name }, process.env.JWT_SECRET,{expiresIn: '2d'}); // expires in 2 days
                     res.status(200).json({success:true,authtoken: token});
                 } else {
                     // If the credentials are invalid, send an error response
@@ -39,4 +38,4 @@ const handler = async (req, res) => {
     }
 };
 
-export default handler;
+export default connectDB(handler);
