@@ -34,11 +34,8 @@ export default function App({ Component, pageProps }) {
     const token = localStorage.getItem("authtoken");
     if(token){
       setUser({value: token});
-      setKey(Math.random())
     }
-    else{
-
-    }
+    setKey(Math.random())
   },[router.query])
   
   // Saves the cart into local storage so that it can be persisted
@@ -117,7 +114,7 @@ export default function App({ Component, pageProps }) {
       onLoaderFinished={() => setProgress(0)}
     />
     {/* If key is undefined then do not re render the Navbar */}
-    <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> 
+    {key && <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
