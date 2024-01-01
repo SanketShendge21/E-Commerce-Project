@@ -4,6 +4,8 @@ import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
 import { CiMoneyCheck1 } from "react-icons/ci";
 import Head from "next/head";
 import Script from "next/script";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 	const [name, setName] = useState("");
@@ -15,7 +17,9 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 	const [state, setState] = useState("");
 	const [disabled, setDisabled] = useState(true);
 
-	const handleChange = (e) => {
+	const handleChange = async (e) => {
+		
+
 		if (e.target.name === "name") {
 			setName(e.target.value);
 		} else if (e.target.name === "email") {
@@ -26,6 +30,24 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 			setAddress(e.target.value);
 		} else if (e.target.name === "pincode") {
 			setPincode(e.target.value);
+			if(e.target.value.length === 6){
+				// Fetch the pincode from the api
+				let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
+				let pinJson = await pins.json();
+				if(Object.keys(pinJson).includes(e.target.value)){
+					// If the pincode is available then set the state and city accordingly
+					setCity(pinJson[e.target.value][0])
+					setState(pinJson[e.target.value][1])
+				}
+				else{
+					setState('')
+					setCity('')
+				}
+			}
+			else{
+				setState('')
+				setCity('')
+			}
 		}
 		if (name.length > 3 && email.length > 3 && phone.length > 3 && address.length > 3 && pincode.length > 3) {
 			setDisabled(false);
@@ -50,6 +72,7 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 			body: JSON.stringify(data), // body data type must match "Content-Type" header
 		});
 		let txnRes = await response.json(); // parses JSON response into native JavaScript objects
+		if(txnRes.success){
 		let txnToken = txnRes.txnToken;
 
 		var config = {
@@ -83,6 +106,10 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 			.catch(function onError(error) {
 				console.log("error => ", error);
 			});
+		}
+		else{
+			toast.error(txnRes.error);
+		}
 	};
 
 	return (
@@ -98,6 +125,18 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 			<h1 className="font-bold text-xl my-8 text-center">Checkout</h1>
 			<h2 className="text-xl font-bold">Delivery Details</h2>
 			<div className="mx-auto flex my-2">
+			<ToastContainer
+				position="top-right"
+				autoClose={3000}
+				hideProgressBar={false}
+				newestOnTop={false}
+				closeOnClick
+				rtl={false}
+				pauseOnFocusLoss
+				draggable
+				pauseOnHover
+				theme="light"
+			/>
 				<div className="px-2 w-1/2">
 					<div className="mb-4">
 						<label htmlFor="email" className="leading-7 text-sm text-gray-600">
@@ -188,12 +227,13 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 							State
 						</label>
 						<input
+						onChange={handleChange}
 						value={state}
 							type="text"
 							id="state"
 							name="state"
 							className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-							readOnly={true}
+							
 						/>
 					</div>
 				</div>
@@ -204,12 +244,13 @@ const Checkout = ({ cart, addToCart, removeFromCart, subTotal }) => {
 							City
 						</label>
 						<input
+						onChange={handleChange}
 						value={city}
 							type="text"
 							id="city"
 							name="city"
 							className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-							readOnly={true}
+							
 						/>
 					</div>
 				</div>

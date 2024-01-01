@@ -1,5 +1,6 @@
 import connectDB from "@/middleware/mongoose";
 import Order from "@/models/Order";
+import Product from "@/models/Product";
 const https = require("https");
 const PaytmChecksum = require("paytmchecksum");
 
@@ -8,7 +9,21 @@ const PaytmChecksum = require("paytmchecksum");
 
 const handler = async (req, res)=> {
 	if (req.method === "POST") {
+		let product,sum=0;
+		let success = false;
 		// Check if cart is tampered -- TODO
+		for(let item in req.body.cart){
+			sum += req.body.cart[item].price * req.body.cart[item].qty
+			product = await Product.findOne({slug: item})
+			if(product.price !== req.body.cart[item].price) {
+				res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
+				return;
+			}
+		}
+		if(sum !== req.body.subTotal){
+			res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
+			return;
+		}
 
 		// Check if cart items are out of stock -- TODO
 
@@ -18,7 +33,7 @@ const handler = async (req, res)=> {
 
 		// Insert an entry in the orders table with status as pending
 
-		const { subTotal, cart, email, name, phone, address, oid } = req.body;
+		const { subTotal, cart, email, address, oid } = req.body;
 
 		let order = new Order({
 			email: email,
@@ -82,7 +97,9 @@ const handler = async (req, res)=> {
 
 						post_res.on("end", function () {
 							console.log("Response: ", response);
-							resolve(JSON.parse(response).body);
+							let ress = JSON.parse(response).body;
+							ress.success = true;
+							resolve(ress)
 						});
 					});
 

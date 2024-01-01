@@ -17,9 +17,9 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	const checkServiceability = async () => {
 		let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
 		let pinJson = await pins.json();
-		if (pinJson.includes(parseInt(pin))) {
+		if (Object.keys(pinJson).includes(pin)) {
 			setService(true); // Set the service as available
-			toast("Service is available")
+			toast.success("Service is available")
 		} else {
 			setService(false);
 			toast.error("Sorry, service is not available")
