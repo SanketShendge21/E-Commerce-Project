@@ -1,21 +1,40 @@
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Order from "@/models/Order";
-import mongoose from "mongoose";
-
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 const MyOrders = () => {
-  const router = useRouter()
-  useEffect(() => {
-      // if not logged in then redirect to login
-      if(!localStorage.getItem('authtoken')){
-        router.push('/login')
-      }
-    }, [router.query])
+	const router = useRouter();
+
+	const [orders, setOrders] = useState([]);
+
+	useEffect(() => {
+		const fetchOrders = async () => {
+			try {
+				let url = `${process.env.NEXT_PUBLIC_HOST}/api/myorders`;
+				const response = await fetch(url, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ token: localStorage.getItem("authtoken") }),
+				});
+				let res = await response.json();
+				setOrders(res.orders);
+			} catch (error) {
+				console.error("Error fetching orders:", error);
+			}
+		};
+
+		// Check if not logged in, then redirect to login
+		if (!localStorage.getItem("authtoken")) {
+			router.push("/login");
+		} else {
+			fetchOrders();
+		}
+	}, [router.query]);
 	return (
 		<>
-
-			<div>
-        <h1 className="p-8 text-center font-semibold text-2xl">My Orders</h1>
+			<div className="min-h-screen">
+				<h1 className="p-8 text-center font-semibold text-2xl">My Orders</h1>
 				<div className="container mx-auto">
 					<div className="flex flex-col">
 						<div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -25,38 +44,35 @@ const MyOrders = () => {
 										<thead className="border-b font-medium dark:border-neutral-500">
 											<tr>
 												<th scope="col" className="px-6 py-4">
-													#
+													#Order ID
 												</th>
 												<th scope="col" className="px-6 py-4">
-													First
+													Email
 												</th>
 												<th scope="col" className="px-6 py-4">
-													Last
+													Amount
 												</th>
 												<th scope="col" className="px-6 py-4">
-													Handle
+													Details
 												</th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-												<td className="whitespace-nowrap px-6 py-4 font-medium">1</td>
-												<td className="whitespace-nowrap px-6 py-4">Mark</td>
-												<td className="whitespace-nowrap px-6 py-4">Otto</td>
-												<td className="whitespace-nowrap px-6 py-4">@mdo</td>
-											</tr>
-											<tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-												<td className="whitespace-nowrap px-6 py-4 font-medium">2</td>
-												<td className="whitespace-nowrap px-6 py-4">Jacob</td>
-												<td className="whitespace-nowrap px-6 py-4">Thornton</td>
-												<td className="whitespace-nowrap px-6 py-4">@fat</td>
-											</tr>
-											<tr className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600">
-												<td className="whitespace-nowrap px-6 py-4 font-medium">3</td>
-												<td className="whitespace-nowrap px-6 py-4">Larry</td>
-												<td className="whitespace-nowrap px-6 py-4">Wild</td>
-												<td className="whitespace-nowrap px-6 py-4">@twitter</td>
-											</tr>
+											{orders.map((item) => {
+												return (
+													<tr
+														key={item._id}
+														className="border-b transition duration-300 ease-in-out hover:bg-neutral-100 dark:border-neutral-500 dark:hover:bg-neutral-600"
+													>
+														<td className="whitespace-nowrap px-6 py-4 font-medium">{item.orderId}</td>
+														<td className="whitespace-nowrap px-6 py-4">{item.email}</td>
+														<td className="whitespace-nowrap px-6 py-4">₹{item.amount}</td>
+														<td className="whitespace-nowrap px-6 py-4">
+															<Link href={"order?id=" + item._id}>Details</Link>
+														</td>
+													</tr>
+												);
+											})}
 										</tbody>
 									</table>
 								</div>
@@ -68,21 +84,5 @@ const MyOrders = () => {
 		</>
 	);
 };
-
-export async function getServerSideProps(context) {
-	if (!mongoose.connections[0].readyState) {
-		// if no connection is available connect to the server and return
-		await mongoose.connect(process.env.MONGO_URI);
-	}
-	// Fetch the order
-	let orders = await Order.find({});
-
-	// Now, colorSizeSlug object is populated with color, size, and corresponding slugs
-
-	return {
-		// We have a _id field in the product which is a object so we need to convert it to a string and then again parse as JSON object
-		props: { orders: orders }, // will be passed to the page component as props
-	};
-}
 
 export default MyOrders;
