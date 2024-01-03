@@ -8,9 +8,9 @@ import LoadingBar from 'react-top-loading-bar'
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
   const [subTotal, setSubTotal] = useState(0)
-  const [user, setUser] = useState({value:null})
   const [key, setKey] = useState()
   const [progress, setProgress] = useState(0)
+  const [user, setUser] = useState({value:null})
 
   const router = useRouter();
   useEffect(() => {
@@ -31,9 +31,9 @@ export default function App({ Component, pageProps }) {
       console.error(error)
       localStorage.clear()
     }
-    const token = localStorage.getItem("authtoken");
-    if(token){
-      setUser({value: token});
+    const myUser = JSON.parse(localStorage.getItem("myUser"));
+    if(myUser){
+      setUser({value: myUser.token, email : myUser.email});
     }
     setKey(Math.random())
   },[router.query])
@@ -100,7 +100,7 @@ export default function App({ Component, pageProps }) {
 	}
 
   const logout = () =>{
-    localStorage.removeItem('authtoken');
+    localStorage.removeItem('myUser');
     setKey(Math.random());
     setUser({value: null});
     router.push('/');
