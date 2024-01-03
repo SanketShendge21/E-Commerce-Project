@@ -9,15 +9,19 @@ const PaytmChecksum = require("paytmchecksum");
 
 const handler = async (req, res)=> {
 	if (req.method === "POST") {
-		// Check if the details are valid
 		let product,sum=0;
 		let tampCart = req.body.cart;
 		let success = false;
+		
+		if(req.body.subTotal <= 0){
+			res.status(400).json({success: false, "error":"Your cart is empty.Please build your cart and try again"})
+			return;
+		}
 		// Check if cart is tampered 
 		for(let item in tampCart){
 			sum += tampCart[item].price * tampCart[item].qty
 
-			// Check if cart items are out of stock -- TODO
+			// Check if cart items are out of stock
 			product = await Product.findOne({slug: item})
 			if(product.availableQty < tampCart[item].qty){
 				res.status(400).json({success: false, "error":"Some items in your cart went out of stock. Please try again"})
@@ -28,12 +32,23 @@ const handler = async (req, res)=> {
 				return;
 			}
 		}
+		
+		// Check if the details are valid
 		if(sum !== req.body.subTotal){
 			res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
 			return;
 		}
 
 
+		if(req.body.phone !== 10 || !Number.isInteger(req.body.phone)){
+			res.status(400).json({success: false, "error":"Please enter a valid phone number"})
+			return;
+		}
+
+		if(req.body.phone !== 6 || !Number.isInteger(req.body.pincode)){
+			res.status(400).json({success: false, "error":"Please enter a valid pincode"})
+			return;
+		}
 
 		//Inititate an order corresponding to the orderID
 
