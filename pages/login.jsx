@@ -12,7 +12,7 @@ const Login = () => {
 
   useEffect(() => {
     // If the user is already logged in then we should redirect to the home page
-    if(localStorage.getItem('authtoken')){
+    if(localStorage.getItem('myUser')){
       router.push('/')
     }
   }, [])
@@ -31,7 +31,7 @@ const Login = () => {
   });
   let response = await res.json();
   if(response.success) {
-    localStorage.setItem('authtoken',response.authtoken);
+    localStorage.setItem('myUser',JSON.stringify({token:response.token, email:response.email}));
     toast.success("Login successful")
     setEmail('');
     setPassword('');
