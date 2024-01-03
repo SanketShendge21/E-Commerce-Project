@@ -9,13 +9,21 @@ const PaytmChecksum = require("paytmchecksum");
 
 const handler = async (req, res)=> {
 	if (req.method === "POST") {
+		// Check if the details are valid
 		let product,sum=0;
+		let tampCart = req.body.cart;
 		let success = false;
-		// Check if cart is tampered -- TODO
-		for(let item in req.body.cart){
-			sum += req.body.cart[item].price * req.body.cart[item].qty
+		// Check if cart is tampered 
+		for(let item in tampCart){
+			sum += tampCart[item].price * tampCart[item].qty
+
+			// Check if cart items are out of stock -- TODO
 			product = await Product.findOne({slug: item})
-			if(product.price !== req.body.cart[item].price) {
+			if(product.availableQty < tampCart[item].qty){
+				res.status(400).json({success: false, "error":"Some items in your cart went out of stock. Please try again"})
+				return;
+			}
+			if(product.price !== tampCart[item].price) {
 				res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
 				return;
 			}
@@ -25,9 +33,7 @@ const handler = async (req, res)=> {
 			return;
 		}
 
-		// Check if cart items are out of stock -- TODO
 
-		// Check if the details are valid -- TODO
 
 		//Inititate an order corresponding to the orderID
 
