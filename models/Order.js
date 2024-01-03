@@ -7,7 +7,8 @@ const OrderSchema = new mongoose.Schema({
     products: {type : Object, required: true},
     address: {type : String, required: true},
     amount: {type : Number, required: true},
-    status: {type : String, required: true, default:'Initiated'}
+    status: {type : String, required: true, default:'Initiated'},
+    deliveryStatus: {type : String, required: true, default:'Unshipped'}
 }, { timestamps: true } );
 
 //mongoose.models = {}; appears to be used to reset the models property of the mongoose object to an empty object ({}). This can be done to clear any existing models that may have been registered, effectively resetting the state related to models.
