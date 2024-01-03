@@ -15,7 +15,7 @@ const MyOrders = () => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ token: localStorage.getItem("authtoken") }),
+					body: JSON.stringify({ token: JSON.parse(localStorage.getItem("myUser")).token }),
 				});
 				let res = await response.json();
 				setOrders(res.orders);
@@ -25,7 +25,7 @@ const MyOrders = () => {
 		};
 
 		// Check if not logged in, then redirect to login
-		if (!localStorage.getItem("authtoken")) {
+		if (!localStorage.getItem("myUser")) {
 			router.push("/login");
 		} else {
 			fetchOrders();
