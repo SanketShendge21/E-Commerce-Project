@@ -1,12 +1,18 @@
+import React, {useEffect} from "react";
+import { useRouter } from "next/router";
 import Order from "@/models/Order";
 import mongoose from "mongoose";
-import { useRouter } from "next/router";
-import React from "react";
 
-const MyOrder = ({ subTotal, order }) => {
+const MyOrder = ({ subTotal, order, clearCart }) => {
 	console.log(order);
-	const products = order.products;	
+	const products = order.products;
 	const router = useRouter();
+	useEffect(() => {
+		if (router.query.clearCart == 1) {
+			clearCart();
+		}
+	}, []);
+
 	return (
 		<div>
 			<section className="text-gray-600 body-font overflow-hidden">
@@ -23,15 +29,19 @@ const MyOrder = ({ subTotal, order }) => {
 								<a className="flex-grow text-center border-gray-300 py-2 text-lg px-1">Quantity</a>
 								<a className="flex-grow text-center border-gray-300 py-2 text-lg px-1">Price</a>
 							</div>
-							
-							{Object.keys(products).map((key)=>
-							{return <div key={key} className="flex border-t border-gray-200 py-2">
-								<span className="text-gray-500">{products[key].name} ({products[key].variant}/{products[key].size})</span>
-								<span className="m-auto text-gray-500">{products[key].qty}</span>
-								<span className="m-auto text-gray-900">₹{products[key].price}</span>
-							</div>
-						})}
-							
+
+							{Object.keys(products).map((key) => {
+								return (
+									<div key={key} className="flex border-t border-gray-200 py-2">
+										<span className="text-gray-500">
+											{products[key].name} ({products[key].variant}/{products[key].size})
+										</span>
+										<span className="m-auto text-gray-500">{products[key].qty}</span>
+										<span className="m-auto text-gray-900">₹{products[key].price}</span>
+									</div>
+								);
+							})}
+
 							<div className="flex flex-col">
 								<span className="title-font font-medium text-2xl text-gray-900">Subtotal : ₹{order.amount}</span>
 								<div className="my-6">
@@ -41,7 +51,11 @@ const MyOrder = ({ subTotal, order }) => {
 								</div>
 							</div>
 						</div>
-						<img alt="ecommerce" className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400" />
+						<img
+							alt="ecommerce"
+							className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+							src="https://m.media-amazon.com/images/I/719pVXD-WCL._SY741_.jpg"
+						/>
 					</div>
 				</div>
 			</section>
