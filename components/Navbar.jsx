@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCircleMinus, FaCirclePlus } from "react-icons/fa6";
@@ -7,29 +7,55 @@ import { IoClose } from "react-icons/io5";
 import { BsBagCheckFill } from "react-icons/bs";
 import { CgTrashEmpty } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
+import { useRouter } from "next/router";
 
 const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key, logout}) => { // Taking props from _app.component
 	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
-	
+	const router = useRouter()
 	const [dropdown, setDropdown] = useState(false);
+	const [sidebar, setSidebar] = useState(false);
+	useEffect(() => {
+		Object.keys(cart).length !== 0 && setSidebar(true);
+		let exempted = ['/checkout','/order','/orders','/myaccount']
+		if(exempted.includes(router.pathname)) {
+			setSidebar(false);
+		}
+	}, [])
+	
 
 	const toggleCart = () => {
 		// We are removing and adding translate-x-full class to toggle the sideCart menu
-		if (ref.current.classList.contains("translate-x-full")) {
-			ref.current.classList.remove("translate-x-full");
-			ref.current.classList.add("translate-x-0");
-		} else if (!ref.current.classList.contains("translate-x-full")) {
-			ref.current.classList.remove("translate-x-0");
-			ref.current.classList.add("translate-x-full");
-		}
+		// if (ref.current.classList.contains("translate-x-full")) {
+		// 	ref.current.classList.remove("translate-x-full");
+		// 	ref.current.classList.add("translate-x-0");
+		// } else if (!ref.current.classList.contains("translate-x-full")) {
+		// 	ref.current.classList.remove("translate-x-0");
+		// 	ref.current.classList.add("translate-x-full");
+		// }
+		setSidebar(!sidebar)
 	};
 
 	// Using the useRef hook to access the sideCart menu using ref
 	const ref = useRef();
 	return (
-		// Code for Navbar - Start
-		// md:property referes to properties that will be applied to devies of medium screen size or above
-		<div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-10 bg-white">
+	<>
+			{/* onlyshow this div when hovering over profile */}
+	{!sidebar && <span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="absolute top-4 right-9 z-40" >
+			{ dropdown && <div className="absolute right-5 top-5 py-4 bg-white shadow-lg border rounded-md px-5 w-32 z-30">
+				<ul>
+					<Link href={'/myaccount'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Account</li></Link>
+					<Link href={'/myorders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Orders</li></Link>
+					<li onClick={logout} className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Logout</li>
+				</ul>
+			</div> }
+
+				{/* If user is logged in then show his profile icon */}
+				{user.value && <MdAccountCircle onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="text-xl md:text-2xl cursor-pointer mx-2" />}
+		
+			</span>}
+		{/* // Code for Navbar - Start
+		// md:property referes to properties that will be applied to devies of medium screen size or above */}
+		<div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-30 bg-white ${!sidebar && "overflow-hidden"}`}>
 			<div className="logo mr-auto md:mx-5">
 				<Link href={"/"}>
 					<Image src="/logo.png" alt="Error" width={200} height={40} />
@@ -52,18 +78,6 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 				</ul>
 			</div>
 			<div className="cart absolute right-0 top-4 mx-5 flex">
-				{/* onlyshow this div when hovering over profile */}
-				<span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}}>
-				{ dropdown && <div className="absolute right-8 top-6 py-4 bg-white shadow-lg border rounded-md px-5 w-32">
-					<ul>
-						<Link href={'/myorders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Orders</li></Link>
-						<Link href={'/myaccount'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Account</li></Link>
-						<li onClick={logout} className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Logout</li>
-					</ul>
-				</div> }
-				</span>
-				{/* If user is logged in then show his profile icon */}
-				{user.value && <MdAccountCircle onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="text-xl md:text-2xl cursor-pointer mx-2" />}
 				
 				{!user.value && <Link href={'/login'}>
 					<button className="bg-orange-500 px-2  py-1 rounded-md text-sm text-white mx-2">Login</button>
@@ -81,8 +95,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 
 			{/* If the cart is empty then dont show the Sidebar */}
 			<div ref={ref}
-				className={`z-10 sideCart w-80 h-[100vh] absolute overflow-y-scroll top-0 right-0 bg-slate-50 px-10 p-10 transfrom transition-transform ${Object.keys(cart).length
-				!==0 ? 'translate-x-0':'translate-x-full'}`}>
+				className={`z-10 sideCart w-80 h-[100vh] absolute overflow-y-scroll top-0 bg-slate-50 px-10 p-10 transition-all ${sidebar ? 'right-0':'-right-96'}`}>
 					
 				<h2 className="font-bold text-xl text-center">Shopping Cart</h2>
 				<span className="absolute top-5 right-3 cursor-pointer text-2xl text-orange-500" onClick={toggleCart}>
@@ -123,6 +136,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 				</div>
 			</div>
 		</div>
+	</>
 	);
 };
 
