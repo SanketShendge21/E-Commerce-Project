@@ -40,11 +40,11 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 	return (
 	<>
 			{/* onlyshow this div when hovering over profile */}
-	{!sidebar && <span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="absolute top-4 right-9 z-40" >
+	{!sidebar && <span onMouseOver={()=>{setDropdown(true)}} onMouseLeave={()=>{setDropdown(false)}} className="fixed top-4 right-9 z-40" >
 			{ dropdown && <div className="absolute right-5 top-5 py-4 bg-white shadow-lg border rounded-md px-5 w-32 z-30">
 				<ul>
 					<Link href={'/myaccount'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Account</li></Link>
-					<Link href={'/myorders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Orders</li></Link>
+					<Link href={'/myorders'}><li className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">My Orders</li></Link>
 					<li onClick={logout} className="py-1 hover:text-orange-400 cursor-pointer text-sm font-bold">Logout</li>
 				</ul>
 			</div> }
