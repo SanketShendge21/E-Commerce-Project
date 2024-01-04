@@ -5,7 +5,7 @@ const MyAccount = () => {
     const router = useRouter()
     useEffect(() => {
         // if not logged in then redirect to login
-        if(!localStorage.getItem('authtoken')){
+        if(!localStorage.getItem('myaccount')){
           router.push('/login')
         }
       }, [router.query])
