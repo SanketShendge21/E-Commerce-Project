@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
@@ -13,6 +13,15 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	// Serviceability check
 	const [pin, setPin] = useState();
 	const [service, setService] = useState();
+	const [color, setColor] = useState(product.color);
+	const [size, setSize] = useState(product.size);	
+
+	useEffect(() => {
+	  setColor(product.color);
+	  setSize(product.size);
+	}, [router.query])
+	
+
 	// Let the promise resolve then check if the service is available
 	const checkServiceability = async () => {
 		let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
@@ -30,12 +39,10 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 		setPin(e.target.value);
 	};
 
-	const [color, setColor] = useState(product.color);
-	const [size, setSize] = useState(product.size);	
 	
 	const refreshVariant = (newColor, newSize)=>{	
 		let url = `${process.env.NEXT_PUBLIC_HOST}/product/${variants[newColor][newSize]["slug"]}`;
-		window.location = url; // Refresh the product
+		router.push(url) // Refresh the product
 	}
 
 
