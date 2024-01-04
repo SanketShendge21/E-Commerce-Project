@@ -40,12 +40,12 @@ const handler = async (req, res)=> {
 		}
 
 
-		if(req.body.phone !== 10 || !Number.isInteger(req.body.phone)){
+		if(req.body.phone.length !== 10 || !Number.isInteger(Number(req.body.phone))){
 			res.status(400).json({success: false, "error":"Please enter a valid phone number"})
 			return;
 		}
 
-		if(req.body.phone !== 6 || !Number.isInteger(req.body.pincode)){
+		if(req.body.phone.length !== 6 || !Number.isInteger(Number(req.body.pincode))){
 			res.status(400).json({success: false, "error":"Please enter a valid pincode"})
 			return;
 		}
