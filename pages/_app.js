@@ -56,6 +56,10 @@ export default function App({ Component, pageProps }) {
   }
   // Function to add items to the cart
   const addToCart = (itemCode, qty, price, name, size, variant ) => {
+    // If cart was cleared then also re-render navbar
+    if(Object.keys(cart).length == 0){
+      setKey(Math.random())
+    }
     let newCart = cart;
     if(itemCode in cart)
     {
