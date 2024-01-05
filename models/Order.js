@@ -6,6 +6,7 @@ const OrderSchema = new mongoose.Schema({
     paymentInfo: {type : String, default: ''},
     products: {type : Object, required: true},
     address: {type : String, required: true},
+    transactionId: {type : String},
     amount: {type : Number, required: true},
     status: {type : String, required: true, default:'Initiated'},
     deliveryStatus: {type : String, required: true, default:'Unshipped'}
