@@ -3,10 +3,14 @@ import { useState, useEffect } from "react";
 import { BsFillCartPlusFill } from "react-icons/bs";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
+import Error from "next/error";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function Slug({ addToCart, product, variants, buyNow }) {
+export default function Slug({ addToCart, product, variants, buyNow, error }) {
+	if(error == 404){
+		return <Error statusCode={404} />
+	}
 	const router = useRouter();
 	const { slug } = router.query;
 
@@ -17,8 +21,10 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 	const [size, setSize] = useState(product.size);	
 
 	useEffect(() => {
+		if(!error) {
 	  setColor(product.color);
 	  setSize(product.size);
+		}
 	}, [router.query])
 	
 
@@ -45,7 +51,9 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 		router.push(url) // Refresh the product
 	}
 
-
+	if(error == 404){
+		return <Error statusCode={404} />
+	}
 
 	return (
 		<div>
@@ -200,16 +208,17 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 								</div>
 							</div>
 							<div className="flex">
-								<span className="title-font font-medium text-2xl text-gray-900">₹{product.price}</span>
-								<button onClick={()=>{buyNow(slug, 1, product.price, product.title, size, color)}} className="flex ml-6 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
+								{product.availableQty <=0 && <span className="title-font font-medium text-2xl text-gray-900">Out of Stock</span>}
+								{product.availableQty > 0 && <span className="title-font font-medium text-2xl text-gray-900">₹{product.price}</span>}
+								<button disabled={product.availableQty<=0} onClick={()=>{buyNow(slug, 1, product.price, product.title, size, color)}} className="flex ml-6 text-white bg-orange-500 border-0 disabled:bg-orange-300 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded">
 									Buy Now
 								</button>
 								{/* Adding the item to the cart */}
-								<button
+								<button disabled={product.availableQty<=0}
 									onClick={() => {
 										addToCart(slug, product.qty, product.price, product.title, size, color);
 									}}
-									className="flex ml-4 text-white bg-orange-500 border-0 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded"
+									className="flex ml-4 text-white bg-orange-500 border-0 disabled:bg-orange-300 py-2 px-2 md:px-6 focus:outline-none hover:bg-orange-600 rounded"
 								>
 									<BsFillCartPlusFill className="mr-1 mt-1" />
 									Add To Cart
@@ -247,12 +256,19 @@ export default function Slug({ addToCart, product, variants, buyNow }) {
 }
 
 export async function getServerSideProps(context) {
+	let error=null;
 	if (!mongoose.connections[0].readyState) {
 		// if no connection is available connect to the server and return
 		await mongoose.connect(process.env.MONGO_URI);
 	}
 	// Fetch the main product based on the provided slug
 	let product = await Product.findOne({ slug: context.query.slug });
+
+	if(product == null){
+		return {
+			props: { error:404 }
+		};
+	}
 
 	// Fetch all variants of the product with the same title (assuming variants have the same title)
 	let variants = await Product.find({ title: product.title, category: product.category});
@@ -279,6 +295,6 @@ export async function getServerSideProps(context) {
 
 	return {
 		// We have a _id field in the product which is a object so we need to convert it to a string and then again parse as JSON object
-		props: { product: JSON.parse(JSON.stringify(product)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
+		props: { error:error, product: JSON.parse(JSON.stringify(product)), variants: JSON.parse(JSON.stringify(colorSizeSlug)) }, // will be passed to the page component as props
 	};
 }
