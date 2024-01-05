@@ -3,7 +3,7 @@ import Order from "@/models/Order";
 import Product from "@/models/Product";
 const https = require("https");
 const PaytmChecksum = require("paytmchecksum");
-
+import pincodes from '@/pincodes.json'
 // const PaytmChecksum = require(PaytmChecksum)//
 
 
@@ -14,9 +14,15 @@ const handler = async (req, res)=> {
 		let success = false;
 		
 		if(req.body.subTotal <= 0){
-			res.status(400).json({success: false, "error":"Your cart is empty.Please build your cart and try again"})
+			res.status(400).json({success: false, "error":"Your cart is empty.Please build your cart and try again", cartClear : false})
 			return;
 		}
+
+		// Check if the pincode is serviceable
+			if(!Object.keys(pincodes).includes(req.body.pincode)){
+				res.status(400).json({success: false, "error":"This pincode is not serviceable", cartClear : false})
+				return;
+			}
 		// Check if cart is tampered 
 		for(let item in tampCart){
 			sum += tampCart[item].price * tampCart[item].qty
@@ -24,29 +30,29 @@ const handler = async (req, res)=> {
 			// Check if cart items are out of stock
 			product = await Product.findOne({slug: item})
 			if(product.availableQty < tampCart[item].qty){
-				res.status(400).json({success: false, "error":"Some items in your cart went out of stock. Please try again"})
+				res.status(400).json({success: false, "error":"Some items in your cart went out of stock. Please try again", cartClear : true})
 				return;
 			}
 			if(product.price !== tampCart[item].price) {
-				res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
+				res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again", cartClear : true})
 				return;
 			}
 		}
 		
 		// Check if the details are valid
 		if(sum !== req.body.subTotal){
-			res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again"})
+			res.status(400).json({success: false, "error":"The price of some items in your cart is incorrect. Please try again", cartClear : true})
 			return;
 		}
 
 
 		if(req.body.phone.length !== 10 || !Number.isInteger(Number(req.body.phone))){
-			res.status(400).json({success: false, "error":"Please enter a valid phone number"})
+			res.status(400).json({success: false, "error":"Please enter a valid phone number", cartClear : false})
 			return;
 		}
 
-		if(req.body.phone.length !== 6 || !Number.isInteger(Number(req.body.pincode))){
-			res.status(400).json({success: false, "error":"Please enter a valid pincode"})
+		if(req.body.pincode.length !== 6 || !Number.isInteger(Number(req.body.pincode))){
+			res.status(400).json({success: false, "error":"Please enter a valid pincode", cartClear : false})
 			return;
 		}
 
@@ -120,6 +126,7 @@ const handler = async (req, res)=> {
 							console.log("Response: ", response);
 							let ress = JSON.parse(response).body;
 							ress.success = true;
+							ress.cartClear = false;
 							resolve(ress)
 						});
 					});
