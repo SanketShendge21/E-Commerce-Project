@@ -60,12 +60,17 @@ const handler = async (req, res)=> {
 
 		// Insert an entry in the orders table with status as pending
 
-		const { subTotal, cart, email, address, oid } = req.body;
+		const { subTotal, cart, email, address, oid, state, city, pincode, phone, name } = req.body;
 
 		let order = new Order({
 			email: email,
+			name: name,
 			orderId: oid,
 			address: address,
+			phone: phone,
+			city: city,
+			state: state,
+			pincode: pincode,
 			amount: subTotal,
 			products: cart,
 		});
