@@ -57,7 +57,7 @@ export default function Slug({ addToCart, product, variants, buyNow, error }) {
 
 	return (
 		<div>
-			<section className="text-gray-600 body-font overflow-hidden">
+			<section className="text-gray-600 body-font overflow-hidden min-h-screen">
 			<ToastContainer
 				position="top-right"
 				autoClose={3000}

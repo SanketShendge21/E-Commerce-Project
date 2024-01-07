@@ -7,9 +7,9 @@ import mongoose from "mongoose";
 const Hoodies = ({ products }) => {
 	return (
 		<div>
-			<section className="text-gray-600 body-font">
+			<section className="text-gray-600 body-font min-h-screen mx-5">
 				<div className="container px-5 py-24 mx-auto">
-					<div className="flex flex-wrap -m-4 justify-center">
+					<div className="flex flex-wrap -m-4 justify-center mx-5">
 						{/*  products is an object which contains hoodies as we have logic is getServerSideProps so we need to take its keys*/}
 						{Object.keys(products).length === 0 && <p className="">Sorry, all the hoodies are out of stock, new stock coming soon. Stay Tuned!</p>}
 						{Object.keys(products).map((item) => {

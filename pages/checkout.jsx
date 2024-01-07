@@ -155,8 +155,9 @@ const Checkout = ({ cart, addToCart, clearCart, removeFromCart, subTotal }) => {
 	};
 
 	return (
-		<div className="container px-8 sm:m-auto">
+		<div className="container px-8 sm:m-auto min-h-screen">
 			<Head>
+				<title>Checkout - ThreadsUnveiled</title>
 				<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
 			</Head>
 			<Script
