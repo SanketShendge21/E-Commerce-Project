@@ -6,6 +6,7 @@ import Head from "next/head";
 import Script from "next/script";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { get } from "mongoose";
 
 const Checkout = ({ cart, addToCart, clearCart, removeFromCart, subTotal }) => {
 	const [name, setName] = useState("");
@@ -19,13 +20,53 @@ const Checkout = ({ cart, addToCart, clearCart, removeFromCart, subTotal }) => {
 	const [user, setUser] = useState({value:null})
 
 	useEffect(() => {
-		const user = JSON.parse(localStorage.getItem("myUser"));
-		if(user && user.token){
-			setUser(user)
-			setEmail(user.email)
+		const myuser = JSON.parse(localStorage.getItem("myUser"));
+		if(myuser && myuser.token){
+			setUser(myuser)
+			setEmail(myuser.email)
+			fetchData(myuser.token)
 		}
 	}, [])
 	
+	  // To fetch data and pre-fill the form
+	  const fetchData = async(token)=>{
+		let url = `${process.env.NEXT_PUBLIC_HOST}/api/getuser`;
+		// pass the auth token
+			const data = { token:token };
+			const response = await fetch(url, {
+				method: "POST", // *GET, POST, PUT, DELETE, etc.
+				headers: {
+					"Content-Type": "application/json",
+					// 'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				body: JSON.stringify(data), // body data type must match "Content-Type" header
+			});
+			let res = await response.json();
+		console.log(res);
+		if(res.success){
+		  setName(res.name)
+		  setPhone(res.phone)
+		  setAddress(res.address)
+		  setPincode(res.pincode)
+		  getPincode(res.pincode)
+		}
+	  }
+
+	const getPincode = async(pin)=>{
+		// Fetch the pincode from the api
+		let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
+		let pinJson = await pins.json();
+		if(Object.keys(pinJson).includes(pin)){
+			// If the pincode is available then set the state and city accordingly
+			setCity(pinJson[pin][0])
+			setState(pinJson[pin][1])
+		}
+		else{
+			setState('')
+			setCity('')
+		}
+	}  
+
 	const handleChange = async (e) => {
 		console.log(user)
 
@@ -40,18 +81,7 @@ const Checkout = ({ cart, addToCart, clearCart, removeFromCart, subTotal }) => {
 		} else if (e.target.name === "pincode") {
 			setPincode(e.target.value);
 			if(e.target.value.length === 6){
-				// Fetch the pincode from the api
-				let pins = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/pincode`);
-				let pinJson = await pins.json();
-				if(Object.keys(pinJson).includes(e.target.value)){
-					// If the pincode is available then set the state and city accordingly
-					setCity(pinJson[e.target.value][0])
-					setState(pinJson[e.target.value][1])
-				}
-				else{
-					setState('')
-					setCity('')
-				}
+				getPincode(e.target.value)
 			}
 			else{
 				setState('')
