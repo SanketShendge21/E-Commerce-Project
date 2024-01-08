@@ -148,6 +148,7 @@ const MyAccount = () => {
 								name="name"
 								placeholder="Enter name"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								required
 							/>
 						</div>
 					</div>
@@ -174,6 +175,7 @@ const MyAccount = () => {
 									id="email"
 									name="email"
 									className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+									required
 								/>
 							)}
 						</div>
@@ -212,6 +214,7 @@ const MyAccount = () => {
 								name="phone"
 								placeholder="Enter 10 Digit Number"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								required
 							/>
 						</div>
 					</div>
@@ -229,6 +232,7 @@ const MyAccount = () => {
 								name="pincode"
 								placeholder="Enter Pincode"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								required
 							/>
 						</div>
 					</div>
@@ -252,7 +256,7 @@ const MyAccount = () => {
 								name="current_password"
 								placeholder="Enter Current Password"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-								required={true}
+								required
 							/>
 						</div>
 					</div>
@@ -271,7 +275,7 @@ const MyAccount = () => {
 								name="password"
 								placeholder="Enter your new password"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-								required={true}
+								required
 							/>
 						</div>
 					</div>
@@ -289,7 +293,7 @@ const MyAccount = () => {
 								name="confirm_password"
 								placeholder="Confirm your password"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-								required={true}
+								required
 							/>
 						</div>
 					</div>
