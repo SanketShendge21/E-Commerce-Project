@@ -25,7 +25,7 @@ const Sidebar = () => {
     }, [])
     
   return (
-    <div className='container mx-2 p-4 min-h-screen'>
+    <div className='container mx-2 p-4'>
         {/* ${sidebar ? 'left-0':'-left-96'} */}
         <GiHamburgerMenu onClick={toggleBar} />
         <div ref={ref}
