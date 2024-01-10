@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }) {
   const [key, setKey] = useState()
   const [progress, setProgress] = useState(0)
   const [user, setUser] = useState({value:null})
+  const [admin,setAdmin] = useState(false);
 
   const router = useRouter();
   useEffect(() => {
@@ -20,7 +21,11 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeComplete',()=>{
       setProgress(100);
     })
-    console.log("Use effect in _app.js");
+    let exempted = ['/admin','/admin/login','/admin/addproducts','/admin/orders']
+		if(exempted.includes(router.pathname)) {
+			setAdmin(true);
+		}
+    console.log(router.pathname);
     try {
       if(localStorage.getItem("cart"))
       {
@@ -119,7 +124,7 @@ export default function App({ Component, pageProps }) {
       onLoaderFinished={() => setProgress(0)}
     />
     {/* If key is undefined then do not re render the Navbar */}
-    {key && <Navbar user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
+    {key && <Navbar admin={admin} user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
   </>
