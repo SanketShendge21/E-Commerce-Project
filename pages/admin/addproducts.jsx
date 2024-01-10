@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from './sidebar'
-const Orders = () => {
+
+const Addproducts = () => {
   return (
     <div>
         <Sidebar></Sidebar>
@@ -8,4 +9,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default Addproducts
