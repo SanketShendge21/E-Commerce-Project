@@ -3,32 +3,39 @@
 import Product from "@/models/Product"; // import product model
 import connectDB from "@/middleware/mongoose"; // import mongoose middleware
 
-const handler = async (req, res) =>{    
-    if(req.method == "POST"){
+const handler = async (req, res) => {
+	// try {
+	if (req.method == "POST") {
+		// Creating a new Product object which takes the following parameters
+		// We ahve to add products in loop because there can be multiple products
+		console.log(req.body);
 
-        // Creating a new Product object which takes the following parameters
-        // We ahve to add products in loop because there can be multiple products
+		let p = new Product({
+			title: req.body.title,
+			slug: req.body.slug,
+			desc: req.body.description,
+			img: req.body.img,
+			category: req.body.category,
+			size: req.body.size,
+			color: req.body.color,
+			price: req.body.price,
+			availableQty: req.body.availableQty,
+		});
+		let product = await p.save(); // save the new Product object
 
-        for(let i=0; i<req.body.length; i++){
-        let p = new Product({
-            title :req.body[i].title,
-            slug :req.body[i].slug, 
-            desc : req.body[i].desc,
-            img : req.body[i].img,
-            category : req.body[i].category,
-            size : req.body[i].size,
-            color : req.body[i].color,
-            price : req.body[i].price,
-            availableQty : req.body[i].availableQty,
-        });
-        await p.save(); // save the new Product object
-    }
-        res.status(200).json({success: "Products created successfully"});
-    }
-    else{
-        res.status(400).json({ error : "This method is not allowed" });    
-    }
-}
+		if (product) {
+			res.status(200).json({ success: true, message: "Products added successfully" });
+		}
+        else {
+            res.status(400).json({ success: false, message: "Error adding product" });
+        }
+	} else {
+		res.status(400).json({ success: false, message: "This method is not allowed" });
+	}
+	// } catch (error) {
+	// 	res.status(400).json({ success:false,error: "This method is not allowed" });
+	// 	console.log(error.message);
+	// }
+};
 
 export default connectDB(handler);
-  
