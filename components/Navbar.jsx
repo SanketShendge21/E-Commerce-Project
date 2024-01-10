@@ -9,7 +9,7 @@ import { CgTrashEmpty } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/router";
 
-const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key, logout}) => { // Taking props from _app.component
+const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key, logout,admin}) => { // Taking props from _app.component
 	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
 	const router = useRouter()
 	const [dropdown, setDropdown] = useState(false);
@@ -20,7 +20,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 		if(exempted.includes(router.pathname)) {
 			setSidebar(false);
 		}
-	}, [])
+		}, [])
 	
 
 	const toggleCart = () => {
@@ -55,7 +55,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 			</span>}
 		{/* // Code for Navbar - Start
 		// md:property referes to properties that will be applied to devies of medium screen size or above */}
-		<div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-30 bg-white ${!sidebar && "overflow-hidden"}`}>
+		{!admin && <div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-30 bg-white ${!sidebar && "overflow-hidden"}`}>
 			<div className="logo mr-auto md:mx-5">
 				<Link href={"/"}>
 					<Image src="/logo.png" alt="Error" width={200} height={40} />
@@ -83,7 +83,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 					<button className="bg-orange-500 px-2  py-1 rounded-md text-sm text-white mx-2">Login</button>
 				</Link>}
 				<FaShoppingCart onClick={toggleCart} className="text-xl md:text-2xl cursor-pointer items-center" /> {/* Using React Icon */}
-			</div>
+			</div> 
 				
 			{/* Navbar End  */}
 
@@ -136,6 +136,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 				</div>
 			</div>
 		</div>
+}
 	</>
 	);
 };
