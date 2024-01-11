@@ -5,39 +5,16 @@ import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "./sidebar";
 
 const Addproducts = () => {
-	// const [title, setTitle] = useState("");
-	// const [category, setCategory] = useState("");
-	// const [description, setDescription] = useState("");
-	// const [slug, setSlug] = useState("");
-	// const [color, setColor] = useState("");
-	// const [size, setSize] = useState("");
-	// const [availableQty, setavailableQty] = useState("");
-	// const [price, setPrice] = useState("");
+    const router = useRouter()
+    useEffect(() => {
+      if(!localStorage.getItem('admin')){
+        router.push('/admin/login')
+      }
+    }, [])
 
 	const [form, setForm] = useState({});
 
 	const handleChange = async (e) => {
-		// if (e.target.name === "title") {
-		// 	setTitle(e.target.value);
-		// } else if (e.target.name === "category") {
-		// 	setCategory(e.target.value);
-		// } else if (e.target.name === "description") {
-		// 	setDescription(e.target.value);
-		// } else if (e.target.name === "slug") {
-		// 	setSlug(e.target.value);
-		// } else if (e.target.name === "color") {
-		// 	setColor(e.target.value);
-
-		// } else if (e.target.name === "size") {value
-		// 	setSize(e.target.value);
-
-		// } else if (e.target.name === "quantity") {
-		// 	setavailableQty(e.target.value);
-
-		// } else if (e.target.name === "price") {
-		// 	setPrice(e.target.value);
-		// }
-
 		setForm({ ...form, [e.target.name]: e.target.value });
 	};
 
@@ -96,6 +73,7 @@ const Addproducts = () => {
 								placeholder="Enter title"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
+								minLength={5}
 							/>
 						</div>
 					</div>
@@ -112,6 +90,8 @@ const Addproducts = () => {
 								id="slug"
 								name="slug"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+								required
+								minLength={3}
 							/>
 						</div>
 					</div>
@@ -131,6 +111,8 @@ const Addproducts = () => {
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								cols="30"
 								rows="2"
+								required
+								minLength={5}
 							></textarea>
 						</div>
 					</div>
@@ -149,6 +131,7 @@ const Addproducts = () => {
 								placeholder="Enter Category"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
+								minLength={2}
 							/>
 						</div>
 					</div>
@@ -168,6 +151,7 @@ const Addproducts = () => {
 								placeholder="Enter Color"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
+								minLength={2}
 							/>
 						</div>
 					</div>
