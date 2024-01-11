@@ -9,15 +9,28 @@ const handler = async (req, res) => {
 		// Creating a new Product object which takes the following parameters
 		// We ahve to add products in loop because there can be multiple products
 		console.log(req.body);
+		function toUpper(str) {
+			return str
+				.toLowerCase()
+				.split(' ')
+				.map(function(word) {
+					return word[0].toUpperCase() + word.substr(1);
+				})
+				.join(' ');
+			 }
+
+			 function capitalizeFirstLetter(string) {
+				return string.charAt(0).toUpperCase() + string.slice(1);
+				}
 
 		let p = new Product({
-			title: req.body.title,
+			title: toUpper(req.body.title),
 			slug: req.body.slug,
 			desc: req.body.description,
 			img: req.body.img,
-			category: req.body.category,
-			size: req.body.size,
-			color: req.body.color,
+			category: req.body.category.toLowerCase(),
+			size: req.body.size.toUpperCase(),
+			color: capitalizeFirstLetter(req.body.color),
 			price: req.body.price,
 			availableQty: req.body.availableQty,
 		});
