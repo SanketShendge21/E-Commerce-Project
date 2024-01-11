@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }) {
     router.events.on('routeChangeComplete',()=>{
       setProgress(100);
     })
-    let exempted = ['/admin','/admin/login','/admin/addproducts','/admin/orders']
+    let exempted = ['/admin','/admin/login','/admin/addproducts','/admin/orders','/admin/viewproducts']
 		if(exempted.includes(router.pathname)) {
 			setAdmin(true);
 		}
