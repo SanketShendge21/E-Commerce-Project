@@ -15,7 +15,7 @@ const Sidebar = () => {
     }
     const logout = ()=>{
         localStorage.removeItem('admin')
-        Router.push('/admin/login')
+        router.push('/admin/login')
     }
     useEffect(() => {
         if(localStorage.getItem('admin')){
@@ -37,6 +37,7 @@ const Sidebar = () => {
 				<ul className="font-semibold ">
                     <Link href={`/admin`}><li className='py-4 hover:text-orange-600'>Dashboard</li></Link>
                     <Link href={`/admin/addproducts`}><li className='py-4 hover:text-orange-600'>Add Products</li></Link>
+                    <Link href={`/admin/viewproducts`}><li className='py-4 hover:text-orange-600'>View Products</li></Link>
                     <Link href={`/admin/orders`}><li className='py-4 hover:text-orange-600'>Orders</li></Link>
 				</ul>
 
