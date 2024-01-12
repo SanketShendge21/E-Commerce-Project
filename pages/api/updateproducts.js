@@ -3,22 +3,46 @@
 import Product from "@/models/Product"; // import product model
 import connectDB from "@/middleware/mongoose"; // import mongoose middleware
 
-const handler = async (req, res) =>{    
-    if(req.method == "PUT"){
+const handler = async (req, res) => {
+	// try {
+	if (req.method == "PUT") {
+		const { title, category, desc, price, availableQty, size, color, slug, _id } = req.body;
+        let p = await Product.findByIdAndUpdate(_id, {
+            $set: {
+                title: title,
+                category: category,
+                price: price,
+                desc:desc,
+                slug: slug,
+                availableQty: availableQty,
+                size: size,
+                color: color,
+            },
+        }, { new: true });
+         // Update the product take id
+		if (p._id) {
+			res.status(200).json({ success: true, message: "Product updated successfully" });
+            return
+		} else {
+			res.status(400).json({ success: false, message: "Not able to update product" });
+            return
+		}
+	}
 
-        // Creating a new Product object which takes the following parameters
-        // We ahve to add products in loop because there can be multiple products
-
-        for(let i=0; i<req.body.length; i++){
-        let p = await Product.findByIdAndUpdate(req.body[i]._id,req.body[i]) // Update th e product take id 
+	if (req.method == "POST") {
+		let p = await Product.findOne({ _id: req.body.productId });
+		if (p) {
+			res.status(200).json({ success: true, product: p });
+            return
+		} else {
+			res.status(400).json({ success: false, message: "Product not found" });
+            return
         }
-        res.status(200).json({success: "Product updated successfully"});
-    }
-    
-    else {
-        res.status(400).json({ error : "This method is not allowed" });    
-    }
-}
+	}
+	// } catch (error) {
+	//     console.log(error.message);
+	//     res.status(400).json({ success: false, message: "Product not found" });
+	// }
+};
 
 export default connectDB(handler);
-  
