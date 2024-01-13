@@ -4,6 +4,7 @@ import Footer from '@/components/Footer'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import LoadingBar from 'react-top-loading-bar'
+import Design from '@/components/Design'
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
@@ -25,7 +26,6 @@ export default function App({ Component, pageProps }) {
 		if(exempted.includes(router.pathname)) {
 			setAdmin(true);
 		}
-    console.log(router.pathname);
     try {
       if(localStorage.getItem("cart"))
       {
@@ -123,10 +123,13 @@ export default function App({ Component, pageProps }) {
       waitingTime={400}
       onLoaderFinished={() => setProgress(0)}
     />
+
     {/* If key is undefined then do not re render the Navbar */}
     {key && <Navbar admin={admin} user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
+    <Design></Design>
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
+    
   </>
   )
 }
