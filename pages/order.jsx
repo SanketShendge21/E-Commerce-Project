@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useRouter } from "next/router";
 import Order from "@/models/Order";
 import mongoose from "mongoose";
+import Head from "next/head";
 
 const MyOrder = ({ subTotal, order, clearCart }) => {
 	console.log(order);
@@ -23,6 +24,9 @@ const MyOrder = ({ subTotal, order, clearCart }) => {
 
 	return (
 		<div>
+			<Head>
+				<title>Order - ThreadsUnveiled</title>
+			</Head>
 			<section className="text-gray-600 body-font overflow-hidden">
 				<div className="container px-5 py-24 mx-auto">
 					<div className="lg:w-4/5 mx-auto flex flex-wrap">

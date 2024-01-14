@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
 const MyAccount = () => {
 	const router = useRouter();
@@ -119,6 +120,9 @@ const MyAccount = () => {
 
 	return (
 		<>
+			<Head>
+				<title>My Account - ThreadsUnveiled</title>
+			</Head>
 			<div className="container my-9 mx-auto">
       <ToastContainer
 				position="top-left"

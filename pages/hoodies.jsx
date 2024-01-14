@@ -3,10 +3,14 @@ import Link from "next/link";
 import React from "react";
 import Product from "@/models/Product";
 import mongoose from "mongoose";
+import Head from "next/head";
 
 const Hoodies = ({ products }) => {
 	return (
 		<div>
+			<Head>
+				<title>Hoodies - ThreadsUnveiled</title>
+			</Head>
 			<section className="text-gray-600 body-font min-h-screen mx-5">
 				<div className="container px-5 py-24 mx-auto">
 					<div className="flex flex-wrap -m-4 justify-center mx-5">

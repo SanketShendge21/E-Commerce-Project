@@ -131,6 +131,7 @@ const Orders = ({ orders }) => {
 					integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
 					crossOrigin="anonymous"
 				></script>
+				<title>Admin - Orders</title>
 			</Head>
 			<div className="container">
 				<h2 className="heading">View Orders</h2>

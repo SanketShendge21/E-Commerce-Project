@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 import Error from "next/error";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Head from "next/head";
 
 export default function Slug({ addToCart, product, variants, buyNow, error }) {
 	if(error == 404){
@@ -57,6 +58,9 @@ export default function Slug({ addToCart, product, variants, buyNow, error }) {
 
 	return (
 		<div>
+			<Head>
+				<title>{product.title} - ThreadsUnveiled</title>
+			</Head>
 			<section className="text-gray-600 body-font overflow-hidden min-h-screen">
 			<ToastContainer
 				position="top-right"

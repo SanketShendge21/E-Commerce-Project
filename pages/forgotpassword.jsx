@@ -114,6 +114,7 @@ const ForgotPassword = () => {
 			/>
 			<Head>
 				<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/motion-tailwind/motion-tailwind.css" />
+				<title>Forgot Password - Threads Unveiled</title>
 			</Head>
 			<div className="container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
 				

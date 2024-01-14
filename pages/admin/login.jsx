@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router'
+import Head from 'next/head';
 
 const Login = () => {
   const router = useRouter()
@@ -54,7 +55,9 @@ const Login = () => {
 
   return (
   <div>
-
+		<Head>
+			<title>Admin Login - Threads Unveiled</title>
+		</Head>
     <div className="container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
     <ToastContainer
 				position="top-right"

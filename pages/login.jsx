@@ -55,7 +55,9 @@ const Login = () => {
 
   return (
   <div>
-
+			<Head>
+				<title>Login - ThreadsUnveiled</title>
+			</Head>
     <div className="container flex flex-col mx-auto bg-white rounded-lg pt-12 my-5">
     <ToastContainer
 				position="top-right"

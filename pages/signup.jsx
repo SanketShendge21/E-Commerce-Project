@@ -60,6 +60,7 @@ const Signup = () => {
     <div>
       <Head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Loopple/loopple-public-assets@main/motion-tailwind/motion-tailwind.css" />
+        <title>SignUp - ThreadsUnveiled</title>
       </Head>
       <ToastContainer
 				position="top-right"

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
+
 const MyOrders = () => {
 	const router = useRouter();
 
@@ -33,6 +35,9 @@ const MyOrders = () => {
 	}, [router.query]);
 	return (
 		<>
+			<Head>
+				<title>My Orders - ThreadsUnveiled</title>
+			</Head>
 			<div className="min-h-screen">
 				<h1 className="p-8 text-center font-semibold text-2xl">My Orders</h1>
 				<div className="container mx-auto">

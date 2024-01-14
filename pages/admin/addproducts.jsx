@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "./sidebar";
+import Head from "next/head";
 
 const Addproducts = () => {
     const router = useRouter()
@@ -43,6 +44,9 @@ const Addproducts = () => {
 
 	return (
 		<>
+		<Head>
+			<title>Admin - Add Products</title>
+		</Head>
 			<Sidebar></Sidebar>
 			<div className="container my-9 mx-auto">
 				<ToastContainer
