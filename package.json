@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "yarn run build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "babel src -d lib",
+    "prebuild": "jest"
   },
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
