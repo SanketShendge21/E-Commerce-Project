@@ -30,7 +30,7 @@ const Carousel = () => {
 					></button>
 				</div>
 
-				<div className="relative w-full h-[60vh] overflow-hidden after:clear-both after:block after:content-['']">
+				<div className="relative w-full md:h-[60vh] h-[32vh] overflow-hidden after:clear-both after:block after:content-['']">
 					<div
 						className="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
 						data-te-carousel-item
