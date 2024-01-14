@@ -9,7 +9,7 @@ import { CgTrashEmpty } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
 import { useRouter } from "next/router";
 
-const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key, logout,admin}) => { // Taking props from _app.component
+const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, logout,admin}) => { // Taking props from _app.component
 	// console.log(cart, addToCart, removeFromCart, clearCart,subTotal);
 	const router = useRouter()
 	const [dropdown, setDropdown] = useState(false);
@@ -55,7 +55,7 @@ const Navbar = ({cart, addToCart, removeFromCart, clearCart, subTotal, user, key
 			</span>}
 		{/* // Code for Navbar - Start
 		// md:property referes to properties that will be applied to devies of medium screen size or above */}
-		{!admin && <div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-30 bg-white ${!sidebar && "overflow-hidden"}`}>
+		{!admin && <div className={`flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md sticky top-0 z-30 ${!sidebar && "overflow-hidden"}`} style={{background:'whitesmoke'}}>
 			<div className="logo mr-auto md:mx-5">
 				<Link href={"/"}>
 					<Image src="/logo.png" alt="Error" width={200} height={40} />

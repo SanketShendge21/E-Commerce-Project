@@ -5,3 +5,8 @@
 /* body{
     overflow-x: hidden;
 } */
+.glow{
+    -webkit-box-shadow:0px 0px 58px 12px rgba(227,46,255,0.6);
+    -moz-box-shadow: 0px 0px 58px 12px rgba(227,46,255,0.6);
+    box-shadow: 0px 0px 20px 12px rgba(227,46,255,0.6);
+}

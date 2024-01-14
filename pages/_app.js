@@ -126,7 +126,7 @@ export default function App({ Component, pageProps }) {
 
     {/* If key is undefined then do not re render the Navbar */}
     {key && <Navbar admin={admin} user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
-    <Design></Design>
+    {/* {!admin && <Design></Design>} */}
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
     <Footer />
     
