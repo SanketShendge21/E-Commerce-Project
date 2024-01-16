@@ -6,12 +6,12 @@ import Sidebar from "./sidebar";
 import Head from "next/head";
 
 const Addproducts = () => {
-    const router = useRouter()
-    useEffect(() => {
-      if(!localStorage.getItem('admin')){
-        router.push('/admin/login')
-      }
-    }, [])
+	const router = useRouter();
+	useEffect(() => {
+		if (!localStorage.getItem("admin")) {
+			router.push("/admin/login");
+		}
+	}, []);
 
 	const [form, setForm] = useState({});
 
@@ -44,9 +44,9 @@ const Addproducts = () => {
 
 	return (
 		<>
-		<Head>
-			<title>Admin - Add Products</title>
-		</Head>
+			<Head>
+				<title>Admin - Add Products</title>
+			</Head>
 			<Sidebar></Sidebar>
 			<div className="container my-9 mx-auto">
 				<ToastContainer
@@ -126,17 +126,23 @@ const Addproducts = () => {
 							<label htmlFor="category" className="leading-7 text-sm text-gray-600">
 								Category
 							</label>
-							<input
+							<select
 								onChange={handleChange}
 								value={form.category ? form.category : ""}
 								type="text"
 								id="category"
 								name="category"
-								placeholder="Enter Category"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
-								minLength={2}
-							/>
+							>
+								<option value="" disabled>
+									Select a category
+								</option>
+								<option value="tshirt">T-shirt</option>
+								<option value="hoodies">Hoodies</option>
+								<option value="stickers">Stickers</option>
+								<option value="mugs">Mugs</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -146,17 +152,23 @@ const Addproducts = () => {
 							<label htmlFor="color" className="leading-7 text-sm text-gray-600">
 								Color
 							</label>
-							<input
+							<select
 								onChange={handleChange}
 								value={form.color ? form.color : ""}
 								type="text"
 								id="color"
 								name="color"
-								placeholder="Enter Color"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
-								minLength={2}
-							/>
+							>
+								<option value="" disabled>
+									Select a color
+								</option>
+								<option value="yellow">Yellow</option>
+								<option value="red">Red</option>
+								<option value="purple">Purple</option>
+								<option value="green">Green</option>
+							</select>
 						</div>
 					</div>
 					<div className="px-2 w-1/2">
@@ -164,16 +176,23 @@ const Addproducts = () => {
 							<label htmlFor="size" className="leading-7 text-sm text-gray-600">
 								Size
 							</label>
-							<input
+							<select
 								onChange={handleChange}
 								value={form.size ? form.size : ""}
 								type="text"
 								id="size"
 								name="size"
-								placeholder="Enter Size"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
-							/>
+							>
+								<option value="" disabled>
+									Select size
+								</option>
+								<option value="S">S</option>
+								<option value="M">M</option>
+								<option value="XL">XL</option>
+								<option value="XXL">XXL</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -222,10 +241,11 @@ const Addproducts = () => {
 							<input
 								onChange={handleChange}
 								value={form.img ? form.img : ""}
-								type="file"
+								type="text"
 								id="img"
 								name="img"
 								accept="image/*"
+								placeholder="Enter image url"
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
 							/>
