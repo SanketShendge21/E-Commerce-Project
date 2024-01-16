@@ -30,6 +30,7 @@ const MyAccount = () => {
 	const [confirm_password, setConfirmPassword] = useState("");
 	const [current_password, setCurrentPassword] = useState("");
 	const [user, setUser] = useState({ value: null });
+	const [passwordError, setPasswordError] = useState(false);
 
 	const handleChange = async (e) => {
 
@@ -50,6 +51,21 @@ const MyAccount = () => {
 			setCurrentPassword(e.target.value);
 		}
 	};
+
+	// Validate the password
+	const validate = (e) => {
+		e.preventDefault();
+		const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	  
+		// Validate password
+		const isValidPassword = passwordRegex.test(password);
+		setPasswordError(!isValidPassword);
+
+	  
+		if (isValidPassword) {
+		  changePassword();
+		}
+	  };
 
   // To fetch data and pre-fill the form
   const fetchData = async(token)=>{
@@ -281,6 +297,16 @@ const MyAccount = () => {
 								className="w-full bg-white rounded border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
 								required
 							/>
+							{passwordError &&	<span className="text-red-600 mb-4">
+									<p>Password must:</p>
+									<ul className="list-disc ml-5">
+										<li>Be at least 8 characters long.</li>
+										<li>Include at least one lowercase letter.</li>
+										<li>Include at least one uppercase letter.</li>
+										<li>Include at least one digit.</li>
+										<li>Include at least one special character (@, $, !, %, *, ?, &).</li>
+									</ul>
+								</span>}
 						</div>
 					</div>
 
@@ -302,7 +328,7 @@ const MyAccount = () => {
 						</div>
 					</div>
 				</div>
-				<button onClick={changePassword} className="flex m-2 text-white disabled:bg-orange-300 bg-orange-500 border-0 py-2 px-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
+				<button onClick={validate} className="flex m-2 text-white disabled:bg-orange-300 bg-orange-500 border-0 py-2 px-2 focus:outline-none hover:bg-orange-600 rounded text-sm">
 					Submit
 				</button>
 			</div>
