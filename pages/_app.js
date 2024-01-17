@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import LoadingBar from 'react-top-loading-bar'
 import Design from '@/components/Design'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }) {
   const [cart, setCart] = useState({})
@@ -128,6 +130,8 @@ export default function App({ Component, pageProps }) {
     {key && <Navbar admin={admin} user={user} logout={logout} key={key} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} subTotal={subTotal} /> }
     {/* {!admin && <Design></Design>} */}
       <Component cart={cart} addToCart={addToCart} removeFromCart={removeFromCart} clearCart={clearCart} buyNow={buyNow} subTotal={subTotal} {...pageProps} />
+      <SpeedInsights />
+      <Analytics />
     <Footer />
     
   </>
