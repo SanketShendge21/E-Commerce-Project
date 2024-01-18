@@ -9,7 +9,7 @@ const connectDB =  handler  => async (req,res)=>{
 
     // if no connection is available connect to the server and return 
     // await mongoose.connect(process.env.MONGO_URI); Why this environemnt variable dosent work idk
-    await mongoose.connect("mongodb://localhost:27017/threadsunveiled");
+    await mongoose.connect(process.env.MONGO_URI);
     return handler(req,res)
 }
 
