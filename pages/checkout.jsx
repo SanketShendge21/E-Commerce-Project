@@ -101,7 +101,7 @@ const Checkout = ({ cart, addToCart, clearCart, removeFromCart, subTotal }) => {
 
 		//Get a transaction token
 		let url = `${process.env.NEXT_PUBLIC_HOST}/api/pretransaction`;
-		const data = { cart, subTotal, oid, email, name, address, pincode, phone };
+		const data = { cart, subTotal, oid, email, name, address, pincode, phone,city,state };
 		const response = await fetch(url, {
 			method: "POST", // *GET, POST, PUT, DELETE, etc.
 			headers: {

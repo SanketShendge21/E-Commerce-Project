@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
     <div className='container mx-2 p-4'>
         {/* ${sidebar ? 'left-0':'-left-96'} */}
-        <GiHamburgerMenu onClick={toggleBar} />
+        <GiHamburgerMenu className='cursor-pointer' onClick={toggleBar} />
         <div ref={ref}
 				className={`z-10 sideBar w-80 h-[100vh] absolute  top-0 bg-slate-50 px-10 p-10 transition-all ${sidebar ? 'left-0':'-left-96'} `}>
 				<h2 className="font-bold text-xl text-center">Dashboard</h2>

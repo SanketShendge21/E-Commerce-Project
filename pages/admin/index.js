@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import Sidebar from "./sidebar";
 import { useRouter } from "next/router";
+import Head from "next/head";
+
 const Index = () => {
 	const router = useRouter();
 	useEffect(() => {
@@ -11,6 +13,9 @@ const Index = () => {
 	return (
     <>
 			<Sidebar></Sidebar>
+			<Head>
+				<title>ThreadsUnveiled - Admin</title>
+			</Head>
 		<div className="min-h-screen">
 			<div className="flex items-center justify-center bg-gray-50 p-4 min-h-screen">
 				<div className="flex flex-col max-w-7xl w-full md:w-[70%]">
