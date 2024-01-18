@@ -3,9 +3,9 @@ import { useRouter } from "next/router";
 import Order from "@/models/Order";
 import mongoose from "mongoose";
 import Head from "next/head";
+import Link from "next/link";
 
 const MyOrder = ({ subTotal, order, clearCart }) => {
-	console.log(order);
 	const products = order.products;
 	const router = useRouter();
 	const [date, setDate] = useState()
@@ -58,9 +58,9 @@ const MyOrder = ({ subTotal, order, clearCart }) => {
 							<div className="flex flex-col">
 								<span className="title-font font-medium text-2xl text-gray-900">Subtotal : ₹{order.amount}</span>
 								<div className="my-6">
-									<button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
-										Track Order
-									</button>
+									<Link href={'/myorders'}><button className="flex text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
+										Order Details
+									</button></Link>
 								</div>
 							</div>
 						</div>

@@ -63,7 +63,7 @@ const Home = ({tshirts, hoodies,addToCart}) => {
       <div key={hoodie._id} className="bg-white p-4 rounded-md shadow-2xl flex flex-col transition-transform transform hover:scale-105">
         <div className="mb-4 relative overflow-hidden rounded-md">
         <Link href={`/hoodies`}> <img src={hoodie.img} alt={hoodie.title} className="max-w-full max-h-full object-cover rounded-md hover:opacity-75 transition-opacity duration-300" /> </Link>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 hover:opacity-75 transition-opacity duration-300"></div>
+          <div className="cursor-pointer absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-0 hover:opacity-75 transition-opacity duration-300"></div>
         </div>
         <h3 className="text-xl font-semibold text-gray-800">{hoodie.title}</h3>
         <p className="text-gray-600">₹{hoodie.price.toFixed(2)}</p>

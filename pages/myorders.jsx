@@ -7,7 +7,7 @@ const MyOrders = () => {
 	const router = useRouter();
 
 	const [orders, setOrders] = useState([]);
-
+	console.log(orders);
 	useEffect(() => {
 		const fetchOrders = async () => {
 			try {
@@ -58,12 +58,16 @@ const MyOrders = () => {
 													Amount
 												</th>
 												<th scope="col" className="px-6 py-4">
+													Date
+												</th>
+												<th scope="col" className="px-6 py-4">
 													Details
 												</th>
 											</tr>
 										</thead>
 										<tbody>
 											{orders.map((item) => {
+												
 												return (
 													<tr
 														key={item._id}
@@ -72,6 +76,7 @@ const MyOrders = () => {
 														<td className="whitespace-nowrap px-6 py-4 font-medium">{item.orderId}</td>
 														<td className="whitespace-nowrap px-6 py-4">{item.email}</td>
 														<td className="whitespace-nowrap px-6 py-4">₹{item.amount}</td>
+														<td className="whitespace-nowrap px-6 py-4">{new Intl.DateTimeFormat('en-US', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(item.createdAt))}</td>
 														<td className="whitespace-nowrap px-6 py-4">
 															<Link href={"order?id=" + item._id}>Details</Link>
 														</td>
