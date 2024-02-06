@@ -26,33 +26,6 @@ ThreadsUnveiled is an online platform where users can browse through a wide rang
 - View order history
 - Admin panel for managing products, orders, and users
 
-
-ThreadsUnveiled is an E-commerce clothing store built with Next.js and MongoDB.
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Introduction
-
-ThreadsUnveiled is an online platform where users can browse through a wide range of clothing items, add them to their cart, and make purchases securely. The platform provides an intuitive user interface for seamless shopping experience.
-
-## Features
-
-- User authentication and authorization
-- Browse through a variety of clothing items
-- Filter products by category, size, color, etc.
-- Add items to the cart
-- Secure checkout process
-- View order history
-- Admin panel for managing products, orders, and users
-
 ## Installation
 
 1. Clone the repository:
