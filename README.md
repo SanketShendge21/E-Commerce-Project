@@ -26,18 +26,6 @@ ThreadsUnveiled is an online platform where users can browse through a wide rang
 - View order history
 - Admin panel for managing products, orders, and users
 
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/ThreadsUnveiled.git
-
-Certainly! Here's the code for the README file. You can copy and paste this code into your GitHub repository's README.md file:
-
-markdown
-Copy code
-# ThreadsUnveiled
 
 ThreadsUnveiled is an E-commerce clothing store built with Next.js and MongoDB.
 
@@ -70,7 +58,7 @@ ThreadsUnveiled is an online platform where users can browse through a wide rang
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/ThreadsUnveiled.git
+git clone https://github.com/SanketShendge21/ThreadsUnveiled.git
 
 2. Navigate to the project directory:
   cd ThreadsUnveiled
