@@ -52,7 +52,7 @@ git clone https://github.com/SanketShendge21/ThreadsUnveiled.git
     If you want to populate the database with sample data, run:
 
   npm run seed
-
+```
 
 ## Technologies Used
 <li>Next.js</li>
